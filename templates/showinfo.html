@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show Info</title>
+</head>
+<body bgcolor="ADDDD0">
+<table border="2" align="center">
+  <tbody>
+  <tr>
+      <th> Name </th>
+      <th> Gender </th>
+      <th> Religion </th>
+      <th> Job </th>
+  </tr>
+  {% for key, value in data.items() %}
+   <tr>
+       <td> <b>{{ key }}</b> </td>
+       {%for a in value %}
+       <td> {{a}} </td>
+       {% endfor %}
+   </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</body>
+</html>
