@@ -12,7 +12,7 @@ def home():
     return render_template("home.html")
 
 
-api.add_resource(ReceiveInfo, "/")
+api.add_resource(ReceiveInfo, "/form")
 api.add_resource(GetInfo, "/showinfo")
 
 if __name__ == '__main__':

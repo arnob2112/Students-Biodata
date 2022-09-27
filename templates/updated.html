@@ -2,10 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title> Updated </title>
+    <style>
+.center {
+  margin: 0;
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+</style>
 </head>
 <body bgcolor="ADDDD0">
 <h2 align="center"> Your Information has Uploaded. </h2>
     <h3 align="center"> Is it okay? {{ name }} </h3>
+    <div class="center">
+  <a href="{{ url_for("receiveinfo")}}">
+    <button > Add New </button>
+  </a></div>
 </body>
+
 </html>

@@ -1,27 +1,41 @@
-<html>
-<head> <title> Form </title></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - Student's Biodata </title>
+    <style>
+    .center1 {
+     margin: 0;
+     position: absolute;
+     top: 15%;
+     left: 50%;
+     -ms-transform: translate(-50%, -50%);
+     transform: translate(-50%, -50%);
+    }
+    .center2 {
+     margin: 0;
+     position: absolute;
+     top: 20%;
+     left: 50%;
+     -ms-transform: translate(-50%, -50%);
+     transform: translate(-50%, -50%);
+    }
+    </style>
 
-<body bgcolor="ADDDD0"> </body>
-<h1 align="center"> Input Form </h1>
-<table align="center" style=" width:700"><tr><td>
+</head>
+<body bgcolor="ADDDD0">
+<h1 align="center"> Welcome to Student's Biodata </h1>
+    <div class="center1">
+    <a href="{{ url_for("receiveinfo")}}">
+        <button> Add Student </button>
+        </a>
+    </div>
+    <div class="center2">
+            <a href="{{ url_for("getinfo") }}">
+        <button> Students Information </button>
+        </a>
 
-    <form action="{{ url_for("home")}}" method="post">
-    First name: <input type="text" name="firstname" placeholder="First name">
-    Last name: <input type="text" name="lastname" placeholder="Last name"> <br><br>
-    College: <input type="text" name="college">
-    Age: <input type="number" name="age"> <br><br>
-    Gender: <input type="radio" name="gender" value="Male"> Male <input type="radio" name="gender" value="Female"> Female <br><br>
-    Religion: <input type="checkbox" name="religion" value="Muslim"> Muslim <input type="checkbox" name="religion" value="Others"> Others <br><br>
-    Contact Number: <input type="tel" name="number"> <br><br>
-    Facebook Id link: <input type="url" name="fb_url"> <br><br>
-    Select job: <select name="job">
-                    <option> Student </option>
-                    <option> Teacher </option>
-                </select> <br><br>
+    </div>
 
-    <input type="submit" value="Submit"> </form>
-
-</td></tr></table>
-
+</body>
 </html>
-

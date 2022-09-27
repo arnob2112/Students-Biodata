@@ -39,6 +39,9 @@ class ReceiveInfo(Resource):
         connection.close()
         return make_response(render_template("updated.html", name="{} {}".format(data['firstname'], data['lastname'], data['gender'], data['religion'], data['job'])))
 
+    def get(self):
+        return make_response(render_template("form.html"))
+
 
 class GetInfo(Resource):
     TABLE_NAME = "user"

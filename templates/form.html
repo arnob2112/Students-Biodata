@@ -1,0 +1,27 @@
+<html>
+<head> <title> Form </title></head>
+
+<body bgcolor="ADDDD0"> </body>
+<h1 align="center"> Input Form </h1>
+<table align="center" style=" width:700"><tr><td>
+
+    <form action="{{ url_for("receiveinfo")}}" method="post">
+    First name: <input type="text" name="firstname" placeholder="First name">
+    Last name: <input type="text" name="lastname" placeholder="Last name"> <br><br>
+    College: <input type="text" name="college">
+    Age: <input type="number" name="age"> <br><br>
+    Gender: <input type="radio" name="gender" value="Male"> Male <input type="radio" name="gender" value="Female"> Female <br><br>
+    Religion: <input type="checkbox" name="religion" value="Muslim"> Muslim <input type="checkbox" name="religion" value="Others"> Others <br><br>
+    Contact Number: <input type="tel" name="number"> <br><br>
+    Facebook Id link: <input type="url" name="fb_url"> <br><br>
+    Select job: <select name="job">
+                    <option> Student </option>
+                    <option> Teacher </option>
+                </select> <br><br>
+
+    <input type="submit" value="Submit"> </form>
+
+</td></tr></table>
+
+</html>
+
