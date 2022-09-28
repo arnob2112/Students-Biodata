@@ -3,27 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Home - Student's Biodata </title>
-    <style>
-    .center1 {
-     margin: 0;
-     position: absolute;
-     top: 15%;
-     left: 50%;
-     -ms-transform: translate(-50%, -50%);
-     transform: translate(-50%, -50%);
-    }
-    .center2 {
-     margin: 0;
-     position: absolute;
-     top: 20%;
-     left: 50%;
-     -ms-transform: translate(-50%, -50%);
-     transform: translate(-50%, -50%);
-    }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/home.css') }}">
 
 </head>
 <body bgcolor="ADDDD0">
+
+<div class="topnav">
+  <a class="active" href="{{url_for("home")}}"> Home </a>
+  <a href="#profile">Profile</a>
+  <a href="#contact">Contact</a>
+  <a href="#about">About us</a>
+</div>
+
 <h1 align="center"> Welcome to Student's Biodata </h1>
     <div class="center1">
     <a href="{{ url_for("receiveinfo")}}">
@@ -36,6 +27,17 @@
         </a>
 
     </div>
+<br> <br> <br> <br> <br> <br>
+
+<footer>
+    <big> Contact Us: </big> <br> <br>
+    {% for key, value in data.items() %}
+    <address>
+        <a class="link" href="tel:{{value}}"> {{key}} </a>
+    </address>
+    {% endfor %}
+</footer>
 
 </body>
+
 </html>

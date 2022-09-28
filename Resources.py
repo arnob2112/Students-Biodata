@@ -1,6 +1,20 @@
-from flask import request, render_template, make_response
+from flask import render_template, make_response
 from flask_restful import Resource, reqparse
 import sqlite3
+
+
+class Home(Resource):
+    TABLE_NAME = 'people'
+
+    def get(self):
+        connection = sqlite3.connect("All Information.db")
+        cursor = connection.cursor()
+        result = list(cursor.execute("SELECT FirstName, LastName, Contact_Number FROM {}".format(self.TABLE_NAME)).
+                      fetchall())
+        data = {}
+        for item in result:
+            data[" ".join([item[x] for x in range(2)])] = item[2]
+        return make_response(render_template("home.html", data=data))
 
 
 class ReceiveInfo(Resource):
@@ -34,10 +48,13 @@ class ReceiveInfo(Resource):
         connection = sqlite3.connect("All Information.db")
         cursor = connection.cursor()
         query = "INSERT INTO {} VALUES(NULL, ? , ?, ?, ?, ?, ?, ?, ?, ?)".format(self.TABLE_NAME)
-        cursor.execute(query, (data['firstname'], data['lastname'],data['college'], data['age'], data['gender'], data['religion'], data['number'],data['fb_url'], data['job']))
+        cursor.execute(query, (data['firstname'], data['lastname'], data['college'], data['age'], data['gender'],
+                               data['religion'], data['number'], data['fb_url'], data['job']))
         connection.commit()
         connection.close()
-        return make_response(render_template("updated.html", name="{} {}".format(data['firstname'], data['lastname'], data['gender'], data['religion'], data['job'])))
+        return make_response(render_template("updated.html", name="{} {}".format(data['firstname'], data['lastname'],
+                                                                                 data['gender'], data['religion'],
+                                                                                 data['job'])))
 
     def get(self):
         return make_response(render_template("form.html"))
@@ -80,5 +97,3 @@ class GetInfo(Resource):
         connection.commit()
         connection.close()
         return make_response(render_template("showinfo.html", data=info))
-
-
