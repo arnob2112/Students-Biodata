@@ -1,10 +1,29 @@
 <html>
-<head> <title> Form </title></head>
+<head>
+    <title> Form </title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/form.css') }}">
+</head>
 
 <body bgcolor="ADDDD0"> </body>
-<h1 align="center"> Input Form </h1>
-<table align="center" style=" width:700"><tr><td>
+    <div class="navbar">
+      <a class="active" href="{{url_for("home")}}"> Home </a>
+      <div class="dropdown">
+        <button class="dropbtn">Profile
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            {% for key, value in user.items() %}
+              <a href="{{value}}"> {{key}} </a>
+            {% endfor %}
+        </div>
+      </div>
+      <a href="#contact">Contact</a>
+      <a href="#about">About us</a>
+    </div>
 
+<h1 align="center"> Input Form </h1>
+<table align="center" style="width:700">
+    <tr><td>
     <form action="{{ url_for("receiveinfo")}}" method="post">
     First name: <input type="text" name="firstname" placeholder="First name">
     Last name: <input type="text" name="lastname" placeholder="Last name"> <br><br>

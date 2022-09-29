@@ -3,32 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Home - Student's Biodata </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/home.css') }}">
 
 </head>
 <body bgcolor="ADDDD0">
 
-<div class="topnav">
+<div class="navbar">
   <a class="active" href="{{url_for("home")}}"> Home </a>
-  <a href="#profile">Profile</a>
+  <div class="dropdown">
+    <button class="dropbtn">Profile
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+            {% for key, value in user.items() %}
+              <a href="{{value}}"> {{key}} </a>
+            {% endfor %}
+    </div>
+  </div>
   <a href="#contact">Contact</a>
   <a href="#about">About us</a>
 </div>
 
 <h1 align="center"> Welcome to Student's Biodata </h1>
-    <div class="center1">
-    <a href="{{ url_for("receiveinfo")}}">
-        <button> Add Student </button>
-        </a>
-    </div>
     <div class="center2">
-            <a href="{{ url_for("getinfo") }}">
+        <a href="{{ url_for("getinfo")}}">
         <button> Students Information </button>
         </a>
+    </div>
+    <div class="center1">
+            <a href="{{ url_for("receiveinfo") }}">
+            <button> Add Student </button>
+            </a>
 
     </div>
 <br> <br> <br> <br> <br> <br>
-
+<hr style="width:50%;height:2px;border-width:0;color:gray;background-color:gray">
 <footer>
     <big> Contact Us: </big> <br> <br>
     {% for key, value in data.items() %}

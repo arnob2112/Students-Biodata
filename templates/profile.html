@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> Updated </title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/updated.css') }}">
+    <title>Profile</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/profile.css') }}">
+
 </head>
-<body bgcolor="ADDDD0">
+<body align="center" bgcolor="ADDDD0">
+
     <div class="navbar">
       <a class="active" href="{{url_for("home")}}"> Home </a>
       <div class="dropdown">
@@ -22,12 +24,15 @@
       <a href="#about">About us</a>
     </div>
 
-<h2 align="center"> Your Information has Uploaded. </h2>
-    <h3 align="center"> Is it okay? {{ name }} </h3>
-    <div class="center">
-  <a href="{{ url_for("receiveinfo")}}">
-    <button > Add New </button>
-  </a></div>
+    {% for key, value in data.items() %}
+        <h2> {{key}} </h2>
+    <b> College </b>: {{value[0]}} <br>
+    <b> Age </b>: {{value[1]}} <br>
+    <b> Gender </b>: {{value[2]}} <br>
+    <b> Religion </b>: {{value[3]}} <br>
+    <b> Contact Number</b>: {{value[4]}} <br>
+    <b> Job </b>: {{value[6]}} <br>
+        <a href="{{value[5]}}" target="_blank"> Facebook </a> <br>
+    {%endfor%}
 </body>
-
 </html>

@@ -1,28 +1,6 @@
-@import url(home.html);
-*
-.center1 {
- margin: 0;
- position: absolute;
- padding-top: 75px;
- left: 50%;
- -ms-transform: translate(-50%, -50%);
- transform: translate(-50%, -50%);
-}
-.center2 {
- margin: 0;
- position: absolute;
- padding-top: 125px;
- left: 50%;
- -ms-transform: translate(-50%, -50%);
- transform: translate(-50%, -50%);
+@import url(showinfo.html);
 
-}
- footer {
-     text-align: center;
-     padding: 3px;
-     background-color: transparent;
-     color: Black;
-     }
+
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
@@ -97,24 +75,3 @@ body {
 .dropdown:hover .dropdown-content {
   display: block;
 }
-
-.link {
-  color: #293462;
-  background-color: transparent;
-  text-decoration: none;
-}
-.link:visited {
-  color: FAF4B7;
-  background-color: transparent;
-  text-decoration: none;
-}
-.link:hover {
-  color: black;
-  background-color: transparent;
-  text-decoration: underline;
-  font-weight:bold;
-}
-.link:active {
-  color: #256D85;
-  background-color: transparent;
-  text-decoration: underline;

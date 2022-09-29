@@ -3,9 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Show Info</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/showinfo.css') }}">
+
 </head>
 <body bgcolor="ADDDD0">
+
+    <div class="navbar">
+      <a class="active" href="{{url_for("home")}}"> Home </a>
+      <div class="dropdown">
+        <button class="dropbtn">Profile
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            {% for key, value in user.items() %}
+              <a href="{{value}}"> {{key}} </a>
+            {% endfor %}
+        </div>
+      </div>
+      <a href="#contact">Contact</a>
+      <a href="#about">About us</a>
+    </div>
+
 <table border="2" align="center">
+    <h1 align="center"> Student's Biodata </h1>
   <tbody>
   <tr>
       <th> Name </th>
