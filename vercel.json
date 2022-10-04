@@ -8,8 +8,13 @@
     ],
     "routes": [
         {
-            "src": "/(.*)",
-            "dest": "/"
+            "src": "/",
+            "dest": "/app.py"
         }
+        {
+            "src": "/form",
+            "dest": "/form.html"
+        }
+        
     ]
 }
