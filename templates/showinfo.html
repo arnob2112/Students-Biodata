@@ -1,51 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+
+
+{% block content %}
 <head>
-    <meta charset="UTF-8">
-    <title>Show Info</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block title %} <title> Students Information - Students's Biodata </title> {% endblock %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/showinfo.css') }}">
-
 </head>
-<body bgcolor="ADDDD0">
-
-    <div class="navbar">
-      <a class="active" href="{{url_for("home")}}"> Home </a>
-      <div class="dropdown">
-        <button class="dropbtn">Profile
-          <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-content">
-            {% for key, value in user.items() %}
-              <a href="{{value}}"> {{key}} </a>
-            {% endfor %}
+<body bgcolor="#256D85">
+    <!--for students row-->
+    {% for student in students %}
+    <div class="row">
+      <div class="column">
+        <div class="card">
+               <img src="{{student[9]}}" alt="picture" width="150" height="150" align="center" ><br>
+               <h3>{{student[0]}} {{student[1]}}</h3>
+               <b> College: </b> {{student[2]}} <br>
+               <b> Age: </b> {{student[3]}} <br>
+               <b> Gender: </b> {{student[4]}} <br>
+               <b> Religion: </b> {{student[5]}} <br>
+               <b> Contact Number: </b> {{student[6]}} <br>
+               <b> Job: </b> {{student[8]}} <br>
+                <a href="{{student[7]}}" target="_blank"> Facebook </a> <br><br>
+           <form action="{{url_for("receiveinfo")}}" method="POST">
+                    <input type="hidden" name="username" value="{{student[10]}}">
+                    <input type="hidden" name="job" value="{{student[8]}}">
+                    <input type="submit" style="margin-right: 10px" name="work" value="Update">
+                    <input type="submit" name="work" value="Delete">
+               </form>
         </div>
       </div>
-      <a href="#contact">Contact</a>
-      <a href="#about">About us</a>
+    {% endfor %}
     </div>
 
-<table border="2" align="center">
-    <h1 align="center"> Student's Biodata </h1>
-  <tbody>
-  <tr>
-      <th> Name </th>
-      <th> College </th>
-      <th> Age </th>
-      <th> Gender </th>
-      <th> Religion </th>
-      <th> Number </th>
-      <th> FB ID </th>
-      <th> Job </th>
-  </tr>
-  {% for key, value in data.items() %}
-   <tr>
-       <td> <b>{{ key }}</b> </td>
-       {%for a in value %}
-       <td> {{a}} </td>
-       {% endfor %}
-   </tr>
-  {% endfor %}
-  </tbody>
-</table>
 </body>
-</html>
+{% endblock %}

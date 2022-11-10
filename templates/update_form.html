@@ -1,0 +1,92 @@
+<html>
+<head>
+    <title> Form </title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/form.css') }}">
+</head>
+
+<body bgcolor="ADDDD0"> </body>
+    <div class="navbar">
+      <a class="active" href="{{url_for("home")}}"> Home </a>
+      <div class="dropdown">
+        <button class="drop-btn">Profile
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            {% for name, username in user %}
+            <a href="{{username}}"> {{name}} </a> <br>
+            {% endfor %}
+        </div>
+      </div>
+      <a href="#contact">Contact</a>
+      <a href="#about">About us</a>
+    </div>
+
+<h1 align="center"> Input Form </h1>
+<table align="center">
+<tr>
+    <td >
+
+    <form action="{{ url_for("receiveinfo")}}" method="POST" enctype="multipart/form-data">
+    First name: <input required type="text" name="Firstname" placeholder="First name" value="{{ data[0] }}">
+    Last name: <input required type="text" name="Lastname" placeholder="Last name" value="{{ data[1] }}"> <br><br>
+    College: <input type="text" name="College" value="{{ data[2] }}">
+    Age: <input required type="number" name="Age" value="{{ data[3] }}"> <br><br>
+    Contact Number: <input required type="tel" name="Contact_Number" value="{{ data[6] }}"> <br><br>
+    Facebook Id link: <input required type="url" name="FB_URL" value="{{ data[7] }}"> <br><br>
+    Gender:
+        {% if data[4] == "Male" %}
+        <input type="radio" name="Gender" value="Male" checked> Male
+        <input type="radio" name="Gender" value="Female"> Female
+        {% endif %}
+        {% if data[4] == "Female" %}
+        <input type="radio" name="Gender" value="Male" > Male
+        <input type="radio" name="Gender" value="Female" checked> Female
+        {% endif %}
+        {% if data[4] == None %}
+        <input type="radio" name="Gender" value="Male" > Male
+        <input type="radio" name="Gender" value="Female"> Female
+        {% endif %}
+        <br><br>
+         Religion:
+        {% if data[5] == "Muslim" %}
+        <input type="checkbox" name="Religion" value="Muslim" checked> Muslim
+        <input type="checkbox" name="Religion" value="Hindu" > Hindu
+        <input type="checkbox" name="Religion" value="Others"> Others <br><br>
+        {% endif %}
+        {% if data[5] == "Hindu" %}
+        <input type="checkbox" name="Religion" value="Muslim"> Muslim
+        <input type="checkbox" name="Religion" value="Hindu" checked> Hindu
+        <input type="checkbox" name="Religion" value="Others"> Others <br><br>
+        {% endif %}
+        {% if data[5] == "Others" %}
+        <input type="checkbox" name="Religion" value="Muslim"> Muslim
+        <input type="checkbox" name="Religion" value="Hindu"> Hindu
+        <input type="checkbox" name="Religion" value="Others" checked> Others <br><br>
+        {% endif %}
+        {% if data[5] == None %}
+        <input type="checkbox" name="Religion" value="Muslim"> Muslim
+        <input type="checkbox" name="Religion" value="Hindu"> Hindu
+        <input type="checkbox" name="Religion" value="Others"> Others <br><br>
+        {% endif %}
+    Select job:
+        <select required name="Job">
+                    {% if data[8] == "Student" %}
+                        <option selected> Student </option>
+                        <option > Teacher </option>
+                    {% endif %}
+                    {% if data[8] == "Teacher" %}
+                        <option> Student </option>
+                        <option selected> Teacher </option>
+                    {% endif %}
+        </select> <br><br>
+    Upload a Profile Picture: <input type="file" name="Picture" accept=".jpg">
+    <input type="hidden" name="Username" value="{{data[10]}}">
+    <input type="hidden" name="work" value="init update">
+    <br><br>
+    <input type="submit" value="Submit">
+    </form>
+    </td>
+</tr>
+</table>
+</html>
+

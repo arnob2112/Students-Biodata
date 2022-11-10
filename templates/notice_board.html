@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block title %} <title>Notice Board - Student's Biodata</title> {% endblock %}
+    <style>
+        body {
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+.column {
+  float: center;
+  width: 50%;
+  padding: 10px 10px;
+}
+
+.row {margin: 0 -5px;}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+}
+
+    </style>
+</head>
+<body bgcolor="#256D85" align="center">
+            <h2> Notices: </h2>
+    {% if current_user.is_authenticated %}
+        <form action="{{url_for("notice")}}" method="POST">
+            <textarea name="notice" style="width: 60%; height: 150px; m"> </textarea> <br>
+            <input type="submit" name="post" value="Post" style="width: 100px; height:40px; margin: 10px;">
+            <hr size="5" width="50%" color="#4f4f4f" style="border-radius: 5px">
+            <input type="hidden" name="teacher_name" value="{{teacher_name}}">
+        </form>
+    {% endif %}
+    {% for notice, name, date in notices %}
+    <div class="row" align="center">
+      <div class="column">
+        <div class="card">
+            {{notice}} <br>
+            <small> <b> {{name}} </b> <br> {{date}} </small>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+</body>
+{% endblock %}

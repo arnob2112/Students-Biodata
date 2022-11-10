@@ -96,3 +96,7 @@ body {
   color: #256D85;
   background-color: transparent;
   text-decoration: underline;
+
+.img{
+     border-radius: 50%;
+    }

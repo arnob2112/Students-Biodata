@@ -1,38 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+
+
+{% block content %}
+
 <head>
     <meta charset="UTF-8">
-    <title>Profile</title>
+    {% block title %} <title> Profile - Students's Biodata </title> {% endblock %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/profile.css') }}">
 
 </head>
 <body align="center" bgcolor="ADDDD0">
-
-    <div class="navbar">
-      <a class="active" href="{{url_for("home")}}"> Home </a>
-      <div class="dropdown">
-        <button class="dropbtn">Profile
-          <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-content">
-            {% for key, value in user.items() %}
-              <a href="{{value}}"> {{key}} </a>
-            {% endfor %}
-        </div>
-      </div>
-      <a href="#contact">Contact</a>
-      <a href="#about">About us</a>
-    </div>
-
     {% for key, value in data.items() %}
+    <br><br>
+    <div class="img"> <img src="{{url_for("home")}}{{value[7]}}" alt="picture" height="200px" width="200px" style="border-radius:50%;"> </div> <br>
         <h2> {{key}} </h2>
     <b> College </b>: {{value[0]}} <br>
     <b> Age </b>: {{value[1]}} <br>
     <b> Gender </b>: {{value[2]}} <br>
     <b> Religion </b>: {{value[3]}} <br>
-    <b> Contact Number</b>: {{value[4]}} <br>
+    <b><a class="link" href="tel:{{value[4]}}" > Contact Number </a></b>: {{value[4]}} <br>
     <b> Job </b>: {{value[6]}} <br>
-        <a href="{{value[5]}}" target="_blank"> Facebook </a> <br>
+        <a class="link" href="{{value[5]}}" target="_blank"> Facebook </a> <br>
+   <form action="{{url_for("receiveinfo")}}" method="POST">
+            <input type="hidden" name="username" value="{{value[8]}}">
+            <input type="hidden" name="job" value="{{value[6]}}">
+            <input type="submit" style="margin-right: 10px" name="work" value="Update">
+       </form>
     {%endfor%}
 </body>
-</html>
+{% endblock %}
