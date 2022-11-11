@@ -26,13 +26,12 @@ def user_loader(user_id):
     return Users.query.get(int(user_id))
 
 
-db.init_app(app)
-with app.app_context():
-    db.create_all()
+@app.before_first_request
+def create_table():
+    with app.app_context():
+        db.create_all()
 
 
-# @app.before_first_request
-# def create_table():
 #     db.create_all()
 #     db.session.commit()
 
@@ -49,4 +48,5 @@ api.add_resource(Show, "/show")
 
 
 if __name__ == '__main__':
+    db.init_app(app)
     app.run(port=5000, debug=True)
