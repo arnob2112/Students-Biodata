@@ -14,7 +14,7 @@ class Login(Resource):
     def post(self):
         username = request.form.get('username')
         password = request.form.get('password')
-        remember = True
+        remember = True if request.form.get('remember') else False
 
         user = Users.query.filter_by(username=username).first()
         if not user or not check_password_hash(user.password, password):
