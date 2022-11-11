@@ -13,6 +13,7 @@ from resources.notice_board import Notice
 app = Flask(__name__)
 app.secret_key = "Arnob"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///All Information.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 api = Api(app)
 
 login_manager = LoginManager()
@@ -25,10 +26,15 @@ def user_loader(user_id):
     return Users.query.get(int(user_id))
 
 
-@app.before_first_request
-def create_table():
+db.init_app(app)
+with app.app_context():
     db.create_all()
-    db.session.commit()
+
+
+# @app.before_first_request
+# def create_table():
+#     db.create_all()
+#     db.session.commit()
 
 
 api.add_resource(Home, "/")
@@ -41,6 +47,6 @@ api.add_resource(Profile, "/<string:job>/<string:username>")
 api.add_resource(Notice, "/noticeboard")
 api.add_resource(Show, "/show")
 
+
 if __name__ == '__main__':
-    db.init_app(app)
     app.run(port=5000, debug=True)
