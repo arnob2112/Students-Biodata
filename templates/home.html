@@ -3,6 +3,11 @@
 {% block title %} <title> Home - Students's Biodata </title> {% endblock %}
 
 {% block content %}
+
+{% for message in get_flashed_messages() %}
+    <h4 align="center"> {{message}} </h4>
+{% endfor %}
+
 <h1 align="center"> Welcome to Students's Biodata </h1>
     <div class="center2">
         <a href="{{ url_for("getinfo")}}">

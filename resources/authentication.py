@@ -2,6 +2,7 @@ from flask import request, render_template, make_response, url_for, redirect, fl
 from flask_restful import Resource
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user
+from resources.email_verification import verify_mail
 
 from models.users import Users
 from database import db
@@ -33,6 +34,7 @@ class Signup(Resource):
         return make_response(render_template('signup.html'))
 
     def post(self):
+        email = request.form.get('email')
         username = request.form.get('username')
         password = request.form.get('password')
 
@@ -42,12 +44,13 @@ class Signup(Resource):
             print("user exists")
             return redirect(url_for('signup'))
 
-        new_user = Users(username=username, password=generate_password_hash(password, method='sha256'))
+        verify_mail(email)
+        new_user = Users(email=email, username=username, password=generate_password_hash(password, method='sha256'))
         db.session.add(new_user)
         db.session.commit()
-
+        flash("Verify your email address. Check you mailbox.")
         login_user(new_user)
-        return redirect(url_for('home'))
+        return "<h1> Verify your email address. Check you mailbox. </h1>"
 
 
 class Logout(Resource):
@@ -55,3 +58,5 @@ class Logout(Resource):
     def get(self):
         logout_user()
         return redirect(url_for('home'))
+
+

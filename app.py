@@ -8,6 +8,7 @@ from resources.access_info import Home, ReceiveInfo, GetInfo, Show
 from resources.Profile import Profile
 from resources.authentication import Signup, Login, Logout
 from resources.notice_board import Notice
+from resources.email_verification import EmailVerification
 
 
 app = Flask(__name__)
@@ -31,12 +32,6 @@ with app.app_context():
     db.create_all()
 
 
-# @app.before_first_request
-# def create_table():
-#     db.create_all()
-#     db.session.commit()
-
-
 api.add_resource(Home, "/")
 api.add_resource(Signup, "/signup")
 api.add_resource(Login, '/login')
@@ -46,6 +41,7 @@ api.add_resource(GetInfo, "/showinfo")
 api.add_resource(Profile, "/<string:job>/<string:username>")
 api.add_resource(Notice, "/noticeboard")
 api.add_resource(Show, "/show")
+api.add_resource(EmailVerification, "/confirm_email/<token>")
 
 
 if __name__ == '__main__':

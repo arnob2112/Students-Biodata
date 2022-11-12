@@ -89,7 +89,6 @@ class ReceiveInfo(Resource):
             image_path = Students.find_picture(username)
             uploaded_img = request.files['picture']
             uploaded_img.save(image_path)
-            # session['uploaded_img_file_path'] = image_path
 
             student = Students.query.filter_by(Username=username).first()
             student.Image_Path = image_path
