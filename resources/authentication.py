@@ -44,13 +44,14 @@ class Signup(Resource):
             print("user exists")
             return redirect(url_for('signup'))
 
-        verify_mail(email)
-        new_user = Users(email=email, username=username, password=generate_password_hash(password, method='sha256'))
+        # verify_mail(email)
+        new_user = Users(username=username, password=generate_password_hash(password, method='sha256'))
         db.session.add(new_user)
         db.session.commit()
         flash("Verify your email address. Check you mailbox.")
         login_user(new_user)
-        return "<h1> Verify your email address. Check you mailbox. </h1>"
+        # return "Verify your email address. Check you mailbox. "
+        return redirect(url_for("home"))
 
 
 class Logout(Resource):

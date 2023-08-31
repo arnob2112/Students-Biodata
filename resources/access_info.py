@@ -25,17 +25,18 @@ class Home(Resource):
 class ReceiveInfo(Resource):
     TABLE_NAME = 'people'
 
-    def get(self):
-        print("get")
+    def get(self, job):
+        print("get", job)
         if current_user.is_authenticated:
             student_usernames, teacher_username = Students.find_all_username(current_user.username)
         else:
             student_usernames = None
             teacher_username = None
-        return make_response(render_template("form.html",
+        return make_response(render_template("form.html", job=job,
                                              student_usernames=student_usernames, teacher_username=teacher_username))
 
-    def post(self):
+    def post(self, job):
+        print(job)
         data = dict(request.form.items())
         # initializing put method
         if data['work'] == 'Update':
@@ -79,11 +80,11 @@ class ReceiveInfo(Resource):
             username = Students.generate_username(data['firstname'], teacher_username)
             new_student = Students(firstname=data['firstname'], lastname=data['lastname'], college=data['college'],
                                    age=data['age'], gender=data.get('gender'), religion=data.get('religion'),
-                                   contact_number=data['number'], fb_url=data['fb_url'], job=data['job'],
+                                   contact_number=data['number'], fb_url=data['fb_url'], job=job,
                                    image_path=None, username=username,
                                    teacher_username=teacher_username)
 
-            new_student.save_to_db()
+            # new_student.save_to_db()
 
             # saving picture in pictures folder and path in database
             image_path = Students.find_picture(username)
@@ -92,7 +93,7 @@ class ReceiveInfo(Resource):
 
             student = Students.query.filter_by(Username=username).first()
             student.Image_Path = image_path
-            student.save_to_db()
+            # student.save_to_db()
 
             student_usernames, teacher_username = Students.find_all_username(teacher_username)
             return make_response(render_template("uploaded.html", name="{} {}".format(data['firstname'],
