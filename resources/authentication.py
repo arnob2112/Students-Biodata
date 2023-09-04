@@ -32,7 +32,7 @@ class Signup(Resource):
 
     def get(self, job):
         print("get signup", job)
-        return make_response(render_template('signup.html', job=job))
+        return make_response(render_template('signup.html', job=job.lower()))
 
     def post(self, job):
         email = request.form.get('email')
@@ -43,7 +43,7 @@ class Signup(Resource):
         if user:
             flash("username has already exists! Try again. ")
             print("user exists")
-            return redirect(url_for('signup', job=job))
+            return redirect(url_for('signup', job=job.lower()))
 
         # verify_mail(email)
         new_user = Users(username=username, password=generate_password_hash(password, method='sha256'),
@@ -53,7 +53,7 @@ class Signup(Resource):
         # flash("Verify your email address. Check you mailbox.")
         login_user(new_user)
         # return "Verify your email address. Check you mailbox. "
-        return redirect(url_for("receiveinfo", job=job))
+        return redirect(url_for("receiveinfo", job=job.lower()))
 
 
 class Logout(Resource):

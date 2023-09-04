@@ -22,7 +22,7 @@
                <b> Contact Number: </b> {{student[6]}} <br>
                <b> Job: </b> {{student[8]}} <br>
                 <a href="{{student[7]}}" target="_blank"> Facebook </a> <br><br>
-           <form action="/Student/form" method="POST">
+           <form action="{{ url_for("receiveinfo", job=current_user.job.lower()) }}" method="POST">
                     <input type="hidden" name="username" value="{{student[10]}}">
                     <input type="hidden" name="job" value="{{student[8]}}">
                     <input type="submit" style="margin-right: 10px" name="work" value="Update">

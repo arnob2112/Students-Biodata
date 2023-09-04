@@ -21,7 +21,7 @@
     <b><a class="link" href="tel:{{value[4]}}" > Contact Number </a></b>: {{value[4]}} <br>
     <b> Job </b>: {{value[6]}} <br>
         <a class="link" href="{{value[5]}}" target="_blank"> Facebook </a> <br>
-   <form action="form" method="POST">
+   <form action="{{ url_for("receiveinfo", job=current_user.job.lower()) }}" method="POST">
             <input type="hidden" name="username" value="{{value[8]}}">
             <input type="hidden" name="job" value="{{value[6]}}">
             <input type="submit" style="margin-right: 10px" name="work" value="Update">

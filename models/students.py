@@ -1,4 +1,3 @@
-import sqlite3
 import os
 from werkzeug.utils import secure_filename
 from flask_login import current_user
@@ -51,7 +50,7 @@ class Students(db.Model):
                                               Students.gender, Students.religion, Students.contact_number,
                                               Students.fb_url, Students.job, Students.image_path,
                                               Students.username) \
-            .filter_by(username=username, job=job.capitalize()).first()  # teacher_username=current_user.username,
+            .filter_by(username=username, job=job.capitalize()).first()
         if result:
             return list(result)  # returning all information of a student in list
         else:
@@ -59,22 +58,34 @@ class Students(db.Model):
 
     @staticmethod
     def find_all_firstname():
-        # connection = sqlite3.connect("All Information.db")
-        # cursor = connection.cursor()
-        # firstnames = list(cursor.execute("SELECT FirstName FROM people").fetchall())
-        # connection.commit()
-        # connection.close()
         firstnames = Students.query.with_entities(Students.firstname).all()
         return firstnames  # returning all firstnames in list of tuples
 
     @staticmethod
-    def find_all_username(teacher): #need to check usage
-        # connection = sqlite3.connect("All Information.db")
-        # cursor = connection.cursor()
-        # users = list(cursor.execute("SELECT FirstName, LastName, username FROM people ").fetchall())
-        # connection.commit()
-        # connection.close()
+    def create_picture_path(username):
+        upload_folder = os.path.join('static', 'pictures')
+        img_filename = secure_filename(username + ".jpg")
+        image_path = os.path.join(upload_folder, img_filename)
+        return image_path  # creating picture path using firstname -> static\pictures\firstname.jpg
 
+    @staticmethod
+    def get_all_students(teacher_username):
+        all_data = Students.query.with_entities(Students.firstname, Students.lastname, Students.college, Students.age,
+                                                Students.gender, Students.religion, Students.contact_number,
+                                                Students.fb_url, Students.job, Students.image_path,
+                                                Students.username) \
+            .filter_by(teacher_username=teacher_username, job="Student").all()
+        return all_data  # return all students' information of a teacher by teacher's username
+
+    @staticmethod
+    def find_name_by_username(username):
+        result = Students.query.with_entities(Students.firstname, Students.lastname) \
+            .filter_by(username=username).first()
+        name = " ".join(result)
+        return name  # finding full name of a student by username
+
+    @staticmethod
+    def find_all_username(teacher):  # need to check usage
         students = Students.query.with_entities(Students.firstname, Students.lastname, Students.username) \
             .filter_by(teacher_username=teacher, job="Student").all()
         student_usernames = []
@@ -90,11 +101,6 @@ class Students(db.Model):
 
     @staticmethod
     def find_username(firstname):
-        # connection = sqlite3.connect("All Information.db")
-        # cursor = connection.cursor()
-        # username = cursor.execute("SELECT username FROM people WHERE FirstName=?", (firstname, )).fetchone()
-        # connection.commit()
-        # connection.close()
         username = Students.query.with_entities(Students.username).filter_by(firstname=firstname).first()
         print(username)
         return username  # returning username in tuple -> (username, )
@@ -110,38 +116,6 @@ class Students(db.Model):
             else:
                 random_number = random.randint(0, 100)
                 unique_username = unique_username + str(random_number)
-
-    @staticmethod
-    def find_picture(username):
-        upload_folder = os.path.join('static', 'pictures')
-        img_filename = secure_filename(username + ".jpg")
-        image_path = os.path.join(upload_folder, img_filename)
-        return image_path  # creating picture path using firstname -> static\pictures\firstname.jpg
-
-    @staticmethod
-    def get_all_students(teacher_username):
-        # connection = sqlite3.connect("All Information.db")
-        # cursor = connection.cursor()
-        # query = "SELECT * FROM people"
-        # all_data = list(cursor.execute(query))
-        # connection.commit()
-        # connection.close()
-        all_data = Students.query.with_entities(Students.firstname, Students.lastname, Students.college, Students.age,
-                                                Students.gender, Students.religion, Students.contact_number,
-                                                Students.fb_url, Students.job, Students.image_path,
-                                                Students.username) \
-            .filter_by(teacher_username=teacher_username, job="Student").all()
-        return all_data  # return all students' info of teacher's username
-
-    @staticmethod
-    def find_name_by_username(username):
-        # connection = sqlite3.connect("All Information.db")
-        # cursor = connection.cursor()
-        # query = "SELECT FirstName, Lastname FROM people WHERE username=?"
-        result = Students.query.with_entities(Students.firstname, Students.lastname) \
-            .filter_by(username=username).first()
-        name = " ".join(result)
-        return name
 
     @staticmethod
     def divide_in_there(persons):
