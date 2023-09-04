@@ -9,33 +9,33 @@ from database import db
 
 class Students(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
-    Firstname = db.Column(db.String(1000))
-    Lastname = db.Column(db.String(1000))
-    College = db.Column(db.String(1000))
-    Age = db.Column(db.Integer)
-    Gender = db.Column(db.String(1000))
-    Religion = db.Column(db.String(1000))
-    Contact_Number = db.Column(db.String(20))
-    FB_URL = db.Column(db.String(1000))
-    Job = db.Column(db.String(100))
-    Image_Path = db.Column(db.String(1000))
-    Username = db.Column(db.String(1000), unique=True)
-    Teacher_Username = db.Column(db.String(1000))
+    firstname = db.Column(db.String(1000))
+    lastname = db.Column(db.String(1000))
+    college = db.Column(db.String(1000))
+    age = db.Column(db.Integer)
+    gender = db.Column(db.String(1000))
+    religion = db.Column(db.String(1000))
+    contact_number = db.Column(db.String(20))
+    fb_url = db.Column(db.String(1000))
+    job = db.Column(db.String(100))
+    image_path = db.Column(db.String(1000))
+    username = db.Column(db.String(1000), unique=True)
+    teacher_username = db.Column(db.String(1000))
 
     def __init__(self, firstname, lastname, college, age, gender, religion,
                  contact_number, fb_url, job, image_path, username, teacher_username):
-        self.Firstname = firstname
-        self.Lastname = lastname
-        self.College = college
-        self.Age = age
-        self.Gender = gender or 23
-        self.Religion = religion or None
-        self.Contact_Number = contact_number
-        self.FB_URL = fb_url
-        self.Job = job
-        self.Image_Path = image_path
-        self.Username = username
-        self.Teacher_Username = teacher_username
+        self.firstname = firstname
+        self.lastname = lastname
+        self.college = college
+        self.age = age
+        self.gender = gender or 23
+        self.religion = religion or None
+        self.contact_number = contact_number
+        self.fb_url = fb_url
+        self.job = job
+        self.image_path = image_path
+        self.username = username
+        self.teacher_username = teacher_username
 
     def save_to_db(self):
         db.session.add(self)
@@ -47,18 +47,11 @@ class Students(db.Model):
 
     @staticmethod
     def find_by_username(username, job):
-        # connection = sqlite3.connect("All Information.db")
-        # cursor = connection.cursor()
-        # query = "SELECT * FROM people WHERE Username=?"
-        # result = cursor.execute(query, (name,)).fetchone()
-        # connection.commit()
-        # connection.close()
-
-        result = Students.query.with_entities(Students.Firstname, Students.Lastname, Students.College, Students.Age,
-                                              Students.Gender, Students.Religion, Students.Contact_Number,
-                                              Students.FB_URL, Students.Job, Students.Image_Path,
-                                              Students.Username)\
-            .filter_by(Username=username, Teacher_Username=current_user.username, Job=job.capitalize()).first()
+        result = Students.query.with_entities(Students.firstname, Students.lastname, Students.college, Students.age,
+                                              Students.gender, Students.religion, Students.contact_number,
+                                              Students.fb_url, Students.job, Students.image_path,
+                                              Students.username) \
+            .filter_by(username=username, job=job.capitalize()).first()  # teacher_username=current_user.username,
         if result:
             return list(result)  # returning all information of a student in list
         else:
@@ -71,44 +64,44 @@ class Students(db.Model):
         # firstnames = list(cursor.execute("SELECT FirstName FROM people").fetchall())
         # connection.commit()
         # connection.close()
-        firstnames = Students.query.with_entities(Students.Firstname).all()
+        firstnames = Students.query.with_entities(Students.firstname).all()
         return firstnames  # returning all firstnames in list of tuples
 
     @staticmethod
-    def find_all_username(teacher):
+    def find_all_username(teacher): #need to check usage
         # connection = sqlite3.connect("All Information.db")
         # cursor = connection.cursor()
-        # users = list(cursor.execute("SELECT FirstName, LastName, Username FROM people ").fetchall())
+        # users = list(cursor.execute("SELECT FirstName, LastName, username FROM people ").fetchall())
         # connection.commit()
         # connection.close()
 
-        students = Students.query.with_entities(Students.Firstname, Students.Lastname, Students.Username)\
-            .filter_by(Teacher_Username=teacher, Job="Student").all()
+        students = Students.query.with_entities(Students.firstname, Students.lastname, Students.username) \
+            .filter_by(teacher_username=teacher, job="Student").all()
         student_usernames = []
         for student in students:
             student_usernames.append(tuple([" ".join(student[x] for x in range(2)), student[2]]))
         try:
-            teacher_username = Students.query.with_entities(Students.Username)\
-                .filter_by(Teacher_Username=current_user.username, Job="Teacher").first()[0]
+            teacher_username = Students.query.with_entities(Students.username) \
+                .filter_by(teacher_username=current_user.username, job="Teacher").first()[0]
         except:
             teacher_username = None
         return student_usernames, teacher_username
-        # returning all usernames in list of tuples -> (FirstName + LastName, Username)
+        # returning all usernames in list of tuples -> (FirstName + LastName, username)
 
     @staticmethod
     def find_username(firstname):
         # connection = sqlite3.connect("All Information.db")
         # cursor = connection.cursor()
-        # username = cursor.execute("SELECT Username FROM people WHERE FirstName=?", (firstname, )).fetchone()
+        # username = cursor.execute("SELECT username FROM people WHERE FirstName=?", (firstname, )).fetchone()
         # connection.commit()
         # connection.close()
-        username = Students.query.with_entities(Students.Username).filter_by(Firstname=firstname).first()
+        username = Students.query.with_entities(Students.username).filter_by(firstname=firstname).first()
         print(username)
         return username  # returning username in tuple -> (username, )
 
     @staticmethod
     def generate_username(firstname, teacher_username):
-        usernames = [user[0] for user in Students.query.with_entities(Students.Username).all()]
+        usernames = [user[0] for user in Students.query.with_entities(Students.username).all()]
         unique_username = firstname.lower()
         while True:
             if unique_username not in usernames:
@@ -133,20 +126,20 @@ class Students(db.Model):
         # all_data = list(cursor.execute(query))
         # connection.commit()
         # connection.close()
-        all_data = Students.query.with_entities(Students.Firstname, Students.Lastname, Students.College, Students.Age,
-                                                Students.Gender, Students.Religion, Students.Contact_Number,
-                                                Students.FB_URL, Students.Job, Students.Image_Path,
-                                                Students.Username)\
-            .filter_by(Teacher_Username=teacher_username, Job="Student").all()
-        return all_data
+        all_data = Students.query.with_entities(Students.firstname, Students.lastname, Students.college, Students.age,
+                                                Students.gender, Students.religion, Students.contact_number,
+                                                Students.fb_url, Students.job, Students.image_path,
+                                                Students.username) \
+            .filter_by(teacher_username=teacher_username, job="Student").all()
+        return all_data  # return all students' info of teacher's username
 
     @staticmethod
     def find_name_by_username(username):
         # connection = sqlite3.connect("All Information.db")
         # cursor = connection.cursor()
-        # query = "SELECT FirstName, Lastname FROM people WHERE Username=?"
-        result = Students.query.with_entities(Students.Firstname, Students.Lastname)\
-            .filter_by(Username=username).first()
+        # query = "SELECT FirstName, Lastname FROM people WHERE username=?"
+        result = Students.query.with_entities(Students.firstname, Students.lastname) \
+            .filter_by(username=username).first()
         name = " ".join(result)
         return name
 

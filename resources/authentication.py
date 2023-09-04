@@ -30,28 +30,30 @@ class Login(Resource):
 class Signup(Resource):
     TABLE_NAME = 'user'
 
-    def get(self):
-        return make_response(render_template('signup.html'))
+    def get(self, job):
+        print("get signup", job)
+        return make_response(render_template('signup.html', job=job))
 
-    def post(self):
+    def post(self, job):
         email = request.form.get('email')
         username = request.form.get('username')
         password = request.form.get('password')
 
         user = Users.query.filter_by(username=username).first()
         if user:
-            flash("Username has already exists! Try again. ")
+            flash("username has already exists! Try again. ")
             print("user exists")
-            return redirect(url_for('signup'))
+            return redirect(url_for('signup', job=job))
 
         # verify_mail(email)
-        new_user = Users(username=username, password=generate_password_hash(password, method='sha256'))
+        new_user = Users(username=username, password=generate_password_hash(password, method='sha256'),
+                         email=email, job=job.capitalize())
         db.session.add(new_user)
         db.session.commit()
-        flash("Verify your email address. Check you mailbox.")
+        # flash("Verify your email address. Check you mailbox.")
         login_user(new_user)
         # return "Verify your email address. Check you mailbox. "
-        return redirect(url_for("home"))
+        return redirect(url_for("receiveinfo", job=job))
 
 
 class Logout(Resource):

@@ -17,7 +17,7 @@
 {% for message in get_flashed_messages() %}
     {{ message }} <br> <br>
 {% endfor %}
-<form align="center" action="{{url_for("signup")}}" method="POST" >
+<form align="center" action="{{url_for("signup", job=job)}}" method="POST" >
     Email: <input required type="text" name="email"> <br><br>
     Username: <input required type="text" name="username"> <br><br>
     Password: <input required type="text" name="password" > <br><br>

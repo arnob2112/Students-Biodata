@@ -33,7 +33,7 @@ with app.app_context():
 
 
 api.add_resource(Home, "/")
-api.add_resource(Signup, "/signup")
+api.add_resource(Signup, "/<string:job>/signup")
 api.add_resource(Login, '/login')
 api.add_resource(Logout, '/logout')
 api.add_resource(ReceiveInfo, "/<string:job>/form")
