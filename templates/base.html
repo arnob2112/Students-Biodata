@@ -19,25 +19,16 @@
       <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-content">
-        <a href="/Student/form"> Students </a> <br>
-        <a href="/Teacher/form"> Teacher </a> <br>
+        <a href="/Student/signup"> Student </a> <br>
+        <a href="/Teacher/signup"> Teacher </a> <br>
     </div>
   </div>
   <a href="{{url_for("home")}}login">Login</a>
 {% endif %}
     <a href="/noticeboard">Notice Board</a>
 {% if current_user.is_authenticated %}
-  <div class="dropdown">
-    <button class="drop-btn">Students
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-        {% for name, username in student_usernames %}
-        <a href="/student/{{username}}"> {{name}} </a> <br>
-        {% endfor %}
-    </div>
-  </div>
-    <a href="/teacher/{{teacher_username}}"> Profile </a>
+    <a href="{{url_for("getinfo")}}"> Students</a>
+    <a href="{{url_for("profile", username=current_user.username, job=current_user.job)}}"> Profile </a>
 {% endif %}
   <a class="active" href="{{url_for("home")}}"> Home </a>
 </div>
