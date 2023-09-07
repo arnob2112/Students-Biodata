@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>Message</title>
+</head>
+<body bgcolor="ADDDD0" align="center">
+<h2>
+{% for message in get_flashed_messages() %}
+    {{ message }} <br> <br>
+{% endfor %}
+</h2>
+</body>
+
+{% endblock %}
