@@ -19,10 +19,10 @@ class Students(db.Model):
     job = db.Column(db.String(100))
     image_path = db.Column(db.String(1000))
     username = db.Column(db.String(1000), unique=True)
-    teacher_username = db.Column(db.String(1000))
+    teacher_usernames = db.Column(db.PickleType)
 
     def __init__(self, firstname, lastname, college, age, gender, religion,
-                 contact_number, fb_url, job, image_path, username, teacher_username):
+                 contact_number, fb_url, job, image_path, username, teacher_usernames):
         self.firstname = firstname
         self.lastname = lastname
         self.college = college
@@ -34,7 +34,7 @@ class Students(db.Model):
         self.job = job
         self.image_path = image_path
         self.username = username
-        self.teacher_username = teacher_username
+        self.teacher_usernames = teacher_usernames
 
     def save_to_db(self):
         db.session.add(self)
@@ -57,25 +57,37 @@ class Students(db.Model):
             return None
 
     @staticmethod
-    def find_all_firstname():
-        firstnames = Students.query.with_entities(Students.firstname).all()
-        return firstnames  # returning all firstnames in list of tuples
-
-    @staticmethod
-    def create_picture_path(username):
+    def create_picture_path(username):  # it is not making sense to be here because this method is using for all.
         upload_folder = os.path.join('static', 'pictures')
         img_filename = secure_filename(username + ".jpg")
         image_path = os.path.join(upload_folder, img_filename)
         return image_path  # creating picture path using firstname -> static\pictures\firstname.jpg
 
     @staticmethod
-    def get_all_students(teacher_username):
-        all_data = Students.query.with_entities(Students.firstname, Students.lastname, Students.college, Students.age,
-                                                Students.gender, Students.religion, Students.contact_number,
-                                                Students.fb_url, Students.job, Students.image_path,
-                                                Students.username) \
-            .filter_by(teacher_username=teacher_username, job="Student").all()
-        return all_data  # return all students' information of a teacher by teacher's username
+    def get_all_students():
+        all_students = Students.query.with_entities(Students.firstname, Students.lastname, Students.college,
+                                                    Students.age, Students.gender, Students.religion,
+                                                    Students.contact_number, Students.fb_url, Students.job,
+                                                    Students.image_path, Students.username) \
+            .filter_by(job="Student").all()
+        return all_students  # return all students' information of a teacher by teacher's username
+
+    @staticmethod
+    def get_students_by_username(students_usernames: list):
+        all_students = []
+
+        try:
+            for username in students_usernames:
+                student = Students.query.with_entities(Students.firstname, Students.lastname, Students.college,
+                                                       Students.age, Students.gender, Students.religion,
+                                                       Students.contact_number, Students.fb_url, Students.job,
+                                                       Students.image_path, Students.username) \
+                    .filter_by(username=username).first()
+                all_students.append(student)
+            return tuple(all_students)
+        except Exception as e:
+            print(e)
+            return None
 
     @staticmethod
     def find_name_by_username(username):
@@ -83,6 +95,11 @@ class Students(db.Model):
             .filter_by(username=username).first()
         name = " ".join(result)
         return name  # finding full name of a student by username
+
+    @staticmethod
+    def find_all_firstname():
+        firstnames = Students.query.with_entities(Students.firstname).all()
+        return firstnames  # returning all firstnames in list of tuples
 
     @staticmethod
     def find_all_username(teacher):  # need to check usage

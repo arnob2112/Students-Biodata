@@ -31,7 +31,7 @@ class ReceiveInfo(Resource):
 
         # initializing put method
         if data['work'] == 'Update':
-            info = Students.find_by_username(data['username'], data['job'].capitalize())
+            info = Students.find_by_username(data['username'], data['job'])
             return make_response(render_template("update_form.html", data=info))
 
         elif data['work'] == 'init update':
@@ -42,9 +42,9 @@ class ReceiveInfo(Resource):
 
             requests.put(request.url, params=data, files={'Picture': request.files['Picture']})
 
-            students = Students.get_all_students(current_user.username)
+            students = Students.get_all_students()
             return make_response(
-                render_template("showinfo.html", students=students,
+                render_template("connections.html", students=students,
                                 message="{} {} has updated.".format(data['firstname'], data['Lastname'])))
 
         # initializing delete method
@@ -52,15 +52,11 @@ class ReceiveInfo(Resource):
             name = Students.find_name_by_username(data['username'])
             requests.delete(request.url, params=data)
 
-            all_students = Students.get_all_students(current_user.username)
-            return make_response(render_template("showinfo.html", students=all_students,
+            all_students = Students.get_all_students()
+            return make_response(render_template("connections.html", students=all_students,
                                                  message="{} has deleted.".format(name)))
 
         else:
-            if current_user.is_authenticated:
-                teacher_username = None  # need to be fixed
-            else:
-                teacher_username = data['teacher_username']
 
             # saving picture in pictures folder and path in database
             image_path = Students.create_picture_path(current_user.username)
@@ -72,14 +68,14 @@ class ReceiveInfo(Resource):
                                        age=data['age'], gender=data.get('gender'), religion=data.get('religion'),
                                        contact_number=data['number'], fb_url=data['fb_url'], job=job.capitalize(),
                                        image_path=image_path, username=current_user.username,
-                                       teacher_username=teacher_username)
+                                       teacher_usernames=None)
                 new_student.save_to_db()
 
             else:
                 new_teacher = Teachers(firstname=data['firstname'], lastname=data['lastname'], college=data['college'],
                                        age=data['age'], gender=data.get('gender'), religion=data.get('religion'),
                                        contact_number=data['number'], fb_url=data['fb_url'], job=job.capitalize(),
-                                       image_path=image_path, username=current_user.username, )
+                                       image_path=image_path, username=current_user.username, student_usernames=None)
                 new_teacher.save_to_db()
 
             return make_response(render_template("uploaded.html",
@@ -118,8 +114,8 @@ class GetInfo(Resource):
     @login_required
     def get(self):
         teacher_username = current_user.username
-        students = Students.get_all_students(teacher_username)
-        return make_response(render_template("showinfo.html", students=students))
+        students = Students.get_all_students()
+        return make_response(render_template("connections.html", students=students))
 
     def put(self):
         print("in the put method, getinfo")
@@ -128,6 +124,6 @@ class GetInfo(Resource):
 
 class Show(Resource):
     def get(self):
-        students = Students.get_all_students("ehshan")
+        students = Students.get_all_students()
         return make_response(
-            render_template("showinfo.html", students=students))
+            render_template("connections.html", students=students))

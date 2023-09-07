@@ -1,5 +1,6 @@
 from flask_login import current_user
 
+from models.students import Students
 from database import db
 
 
@@ -16,10 +17,11 @@ class Teachers(db.Model):
     fb_url = db.Column(db.String)
     job = db.Column(db.String)
     image_path = db.Column(db.String)
-    username = db.Column(db.String)
+    username = db.Column(db.String, unique=True)
+    student_usernames = db.Column(db.PickleType)
 
     def __int__(self, firstname, lastname, college, age, gender,
-                religion, contact_number, email, fb_url, job, image_path, username):
+                religion, contact_number, email, fb_url, job, image_path, username, student_usernames):
         self.firstname = firstname
         self.lastname = lastname
         self.college = college
@@ -32,6 +34,7 @@ class Teachers(db.Model):
         self.job = job
         self.image_path = image_path
         self.username = username
+        self.student_usernames = student_usernames
 
     def save_to_db(self):
         db.session.add(self)
@@ -46,9 +49,37 @@ class Teachers(db.Model):
         result = Teachers.query.with_entities(Teachers.firstname, Teachers.lastname, Teachers.college, Teachers.age,
                                               Teachers.gender, Teachers.religion, Teachers.contact_number,
                                               Teachers.fb_url, Teachers.job, Teachers.image_path,
-                                              Teachers.username)\
+                                              Teachers.username) \
             .filter_by(username=username, job=job.capitalize()).first()
         if result:
             return list(result)  # returning all information of a student in list
         else:
             return None
+
+    @staticmethod
+    def get_all_teachers():
+        all_teachers = Teachers.query.with_entities(Teachers.firstname, Teachers.lastname, Teachers.college,
+                                                    Teachers.age, Teachers.gender, Teachers.religion,
+                                                    Teachers.contact_number, Teachers.fb_url, Teachers.job,
+                                                    Teachers.image_path, Teachers.username)\
+            .filter_by(job="Teacher").all()
+        return all_teachers
+
+    @staticmethod
+    def get_teachers_by_username(teachers_usernames: list):
+        all_teachers = []
+
+        try:
+            for username in teachers_usernames:
+                teacher = Teachers.query.with_entities(Teachers.firstname, Teachers.lastname, Teachers.college,
+                                                       Teachers.age, Teachers.gender, Teachers.religion,
+                                                       Teachers.contact_number, Teachers.fb_url, Teachers.job,
+                                                       Teachers.image_path, Teachers.username) \
+                    .filter_by(username=username).first()
+                all_teachers.append(teacher)
+            return tuple(all_teachers)
+        except Exception as e:
+            print(e)
+            return None
+
+        # returning all teachers' information by using their username who are connected with current student in tuple
