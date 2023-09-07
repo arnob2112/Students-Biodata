@@ -12,7 +12,7 @@
 <body align="center" bgcolor="ADDDD0">
     {% for key, value in data.items() %}
     <br><br>
-    <div class="img"> <img src="{{url_for("home")}}{{value[7]}}" alt="picture" height="200px" width="200px" style="border-radius:50%;"> </div> <br>
+    <div class="img"> <img src="{{url_for('home')}}{{value[7]}}" alt="picture" height="200px" width="200px" style="border-radius:50%;"> </div> <br>
         <h2> {{key}} </h2>
     <b> College </b>: {{value[0]}} <br>
     <b> Age </b>: {{value[1]}} <br>
@@ -21,7 +21,7 @@
     <b><a class="link" href="tel:{{value[4]}}" > Contact Number </a></b>: {{value[4]}} <br>
     <b> Job </b>: {{value[6]}} <br>
         <a class="link" href="{{value[5]}}" target="_blank"> Facebook </a> <br>
-   <form action="{{ url_for("receiveinfo", job=current_user.job.lower()) }}" method="POST">
+   <form action="{{ url_for('receiveinfo', job=current_user.job.lower()) }}" method="POST">
             <input type="hidden" name="username" value="{{value[8]}}">
             <input type="hidden" name="job" value="{{value[6]}}">
             <input type="submit" style="margin-right: 10px" name="work" value="Update">

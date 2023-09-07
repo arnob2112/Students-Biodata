@@ -45,7 +45,7 @@
 <body bgcolor="#256D85" align="center">
             <h2> Notices: </h2>
     {% if current_user.is_authenticated and current_user.job!="Student" %}
-        <form action="{{url_for("notice")}}" method="POST">
+        <form action="{{url_for('notice')}}" method="POST">
             <textarea name="notice" style="width: 60%; height: 150px; m"> </textarea> <br>
             <input type="submit" name="post" value="Post" style="width: 100px; height:40px; margin: 10px;">
             <hr size="5" width="50%" color="#4f4f4f" style="border-radius: 5px">

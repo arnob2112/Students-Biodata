@@ -17,7 +17,7 @@
 {% for message in get_flashed_messages() %}
     {{ message }} <br> <br>
 {% endfor %}
-<form align="center" action="{{url_for("login")}}" method="POST" >
+<form align="center" action="{{url_for('login')}}" method="POST" >
     Username: <input required type="text" name="username"> <br><br>
     Password: <input required type="password" name="password" > <br><br>
     <input type="checkbox" name="remember"> Remember Me <br><br>
