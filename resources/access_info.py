@@ -14,8 +14,8 @@ class Home(Resource):
 
     def get(self):
         if current_user.is_authenticated:
-            if Students.query.filter_by(username=current_user.username).first() is None and Teachers.query.filter_by(
-                    username=current_user.username).first() is None:
+            if (Students.query.filter_by(username=current_user.username).first() is None and Teachers.query
+                    .filter_by(username=current_user.username).first() is None):
                 return make_response(render_template("form.html"))
         return make_response(render_template("home.html"))
 
