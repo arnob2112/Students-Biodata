@@ -27,15 +27,14 @@
 {% endif %}
     <a href="{{url_for('notice')}}">Notice Board</a>
 {% if current_user.is_authenticated %}
-<!--    {% if current_user.job.lower() == "teacher" %}-->
-<!--        <a href="{{url_for("getinfo")}}"> Students </a>-->
-<!--    {% endif %}-->
-<!--    {% if current_user.job.lower() == "student" %}-->
-<!--        <a href="{{url_for("getinfo")}}"> Teachers </a>-->
-<!--    {% endif %}-->
-    <a href="{{url_for('addconnection', username=current_user.username, job=current_user.job.lower())}}"> Add Connections </a>
-    <a href="{{url_for('connections', username=current_user.username, job=current_user.job.lower())}}"> Connections </a>
-    <a href="{{url_for('profile', username=current_user.username, job=current_user.job.lower())}}"> Profile </a>
+    {% if current_user.job.lower() == 'admin' %}
+        <a href="{{url_for('all', username=current_user.username, job='student')}}"> Students</a>
+        <a href="{{url_for('all', username=current_user.username, job='teacher')}}"> Teachers</a>
+    {% else %}
+        <a href="{{url_for('addconnection', username=current_user.username, job=current_user.job.lower())}}"> Add Connections </a>
+        <a href="{{url_for('connections', username=current_user.username, job=current_user.job.lower())}}"> Connections </a>
+    {% endif %}
+        <a href="{{url_for('profile', username=current_user.username, job=current_user.job.lower())}}"> Profile </a>
 {% endif %}
   <a class="active" href="{{url_for('home')}}"> Home </a>
 </div>

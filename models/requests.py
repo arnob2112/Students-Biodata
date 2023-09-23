@@ -5,7 +5,7 @@ from models.students import Students
 from database import db
 
 
-class Requests(db.Model):
+class Requests(db.Model):  # this name should be connection requests
     id = db.Column(db.Integer, primary_key=True)
     teacher_username = db.Column(db.String)
     student_username = db.Column(db.String)

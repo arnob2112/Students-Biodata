@@ -210,7 +210,7 @@ class All(Resource):
                             delete_student.delete_from_db()
 
                         # os.remove(Students.create_picture_path(data['username']))
-                        # removing from user table
+                        # # removing from user table
                         # delete_user = Users.query.filter_by(username=data['username']).first()
                         # delete_user.delete_from_db()
                         return make_response(render_template("message.html"))

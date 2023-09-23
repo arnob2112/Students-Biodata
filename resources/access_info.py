@@ -76,8 +76,7 @@ class ReceiveInfo(Resource):
                 new_student = Students(firstname=data['firstname'], lastname=data['lastname'], college=data['college'],
                                        age=data['age'], gender=data.get('gender'), religion=data.get('religion'),
                                        contact_number=data['number'], fb_url=data['fb_url'], job=job.capitalize(),
-                                       image_path=image_path, username=current_user.username,
-                                       teacher_usernames=None)
+                                       image_path=image_path, username=current_user.username, teacher_usernames=None)
                 new_student.save_to_db()
 
             else:

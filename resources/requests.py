@@ -7,7 +7,7 @@ from models.students import Students
 from models.requests import Requests
 
 
-class Pending(Resource):
+class Pending(Resource):  # this name should be connection requests
     TABLE_NAME = "pending"
 
     def get(self, username, job):
