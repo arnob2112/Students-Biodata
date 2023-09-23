@@ -26,7 +26,7 @@
 <tr>
     <td >
 
-    <form action="{{ url_for('receiveinfo')}}" method="POST" enctype="multipart/form-data">
+    <form action="{{ url_for('receiveinfo', job=current_user.job.lower())}}" method="POST" enctype="multipart/form-data">
     First name: <input required type="text" name="Firstname" placeholder="First name" value="{{ data[0] }}">
     Last name: <input required type="text" name="Lastname" placeholder="Last name" value="{{ data[1] }}"> <br><br>
     College: <input type="text" name="College" value="{{ data[2] }}">
@@ -68,19 +68,10 @@
         <input type="checkbox" name="Religion" value="Hindu"> Hindu
         <input type="checkbox" name="Religion" value="Others"> Others <br><br>
         {% endif %}
-    Select job:
-        <select required name="Job">
-                    {% if data[8] == "Student" %}
-                        <option selected> Student </option>
-                        <option > Teacher </option>
-                    {% endif %}
-                    {% if data[8] == "Teacher" %}
-                        <option> Student </option>
-                        <option selected> Teacher </option>
-                    {% endif %}
-        </select> <br><br>
+        <input type="hidden" name="job" value="{{data[8]}}">
     Upload a Profile Picture: <input type="file" name="Picture" accept=".jpg">
-    <input type="hidden" name="Username" value="{{data[10]}}">
+    <input type="hidden" name="username" value="{{data[10]}}">
+<!--    <input type="hidden" name="teacher_usernames" value="{{data[11]}}">-->
     <input type="hidden" name="work" value="init update">
     <br><br>
     <input type="submit" value="Submit">

@@ -1,4 +1,4 @@
-from flask import render_template, make_response, request, session
+from flask import render_template, make_response, request, session, flash
 from flask_restful import Resource
 from flask_login import login_required, current_user
 import requests
@@ -6,6 +6,7 @@ import os
 
 from models.students import Students
 from models.teachers import Teachers
+from resources.email_verification import verify_mail
 from database import db
 
 
@@ -14,9 +15,16 @@ class Home(Resource):
 
     def get(self):
         if current_user.is_authenticated:
-            if (Students.query.filter_by(username=current_user.username).first() is None and Teachers.query
-                    .filter_by(username=current_user.username).first() is None):
+            if (Students.query.filter_by(username=current_user.username).first() is None and
+                    Teachers.query.filter_by(username=current_user.username).first() is None):
                 return make_response(render_template("form.html"))
+            if not current_user.verified:
+                flash("Your email is not verified.")
+        return make_response(render_template("home.html"))
+
+    def post(self):
+        verify_mail(current_user.email)
+        flash(f"Email has sent to {current_user.email}. Please check your inbox.")
         return make_response(render_template("home.html"))
 
 
@@ -28,10 +36,10 @@ class ReceiveInfo(Resource):
 
     def post(self, job):
         data = dict(request.form.items())
-
         # initializing put method
         if data['work'] == 'Update':
-            info = Students.find_by_username(data['username'], data['job'])
+            info = (Students.find_by_username(data['username'], data['job']) or
+                    Teachers.find_by_username(data['username'], data['job']))
             return make_response(render_template("update_form.html", data=info))
 
         elif data['work'] == 'init update':
@@ -39,21 +47,22 @@ class ReceiveInfo(Resource):
                 data['Picture'] = True
             else:
                 data['Picture'] = False
-
             requests.put(request.url, params=data, files={'Picture': request.files['Picture']})
 
             students = Students.get_all_students()
-            return make_response(
-                render_template("connections.html", students=students,
-                                message="{} {} has updated.".format(data['firstname'], data['Lastname'])))
+            # return make_response(render_template("connections.html", students=students,
+            #                                      message="{} {} has updated.".format(data['Firstname']
+            #                                                                          , data['Lastname'])))
+            flash("{} {} has updated.".format(data['Firstname'], data['Lastname']))
+            return make_response(render_template("message.html"))
 
         # initializing delete method
         elif data["work"] == 'Delete':
-            name = Students.find_name_by_username(data['username'])
+            name = Students.find_name_by_username(data['username']) # it can be replaced by another way
             requests.delete(request.url, params=data)
 
             all_students = Students.get_all_students()
-            return make_response(render_template("connections.html", students=all_students,
+            return make_response(render_template("all.html", students=all_students,
                                                  message="{} has deleted.".format(name)))
 
         else:
@@ -81,9 +90,10 @@ class ReceiveInfo(Resource):
             return make_response(render_template("uploaded.html",
                                                  name="{} {}".format(data['firstname'], data['lastname'], )))
 
-    def put(self):
+    def put(self, job):
         data = dict(request.args)
-
+        print("i am in put in access info")
+        print(data)
         image_path = Students.create_picture_path(data['username'])
         if data['Picture'] == "True":
             uploaded_img = request.files['Picture']
@@ -92,21 +102,38 @@ class ReceiveInfo(Resource):
 
         data.pop('work')
         data.pop('Picture')
-        Students.query.filter_by(username=data['username']).update(data)
-        db.session.commit()
 
-        return None
+        data = {key.lower(): value for key, value in data.items()}
+        if data.get('job').lower() == 'teacher' or data.get('job').lower() == 'admin':
+            Teachers.query.filter_by(username=data['username']).update(data)
+            db.session.commit()
+            return None
+        elif data.get('job').lower() == 'student':
+            Students.query.filter_by(username=data['username']).update(data)
+            db.session.commit()
+            return None
+        else:
+            flash("Please try again")
+            return make_response(render_template("message.html"))
 
-    def delete(self):
+    def delete(self, job):
         # need to fixed cause here student's info will be deleted. but it should be used only for disconnect from
         # teacher
-        data = dict(request.args)
-
-        delete_student = Students.query.filter_by(username=data['username']).first()
-        delete_student.delete_from_db()
-
-        os.remove(Students.create_picture_path(data['username']))
-        return None
+        # data = dict(request.args)
+        # if current_user.job == 'admin':
+        #     if data.get('job').lower() == 'teacher':
+        #         delete_teacher = Teachers.query.filter_by(username=data['username']).first()
+        #         delete_teacher.delete_from_db()
+        #     elif data.get('job').lower() == 'student':
+        #         delete_student = Students.query.filter_by(username=data['username']).first()
+        #         delete_student.delete_from_db()
+        #
+        #     os.remove(Students.create_picture_path(data['username']))
+        #     return None
+        # else:
+        #     flash("Please try again")
+        #     return make_response(render_template("message.html"))
+        pass
 
 
 class GetInfo(Resource):

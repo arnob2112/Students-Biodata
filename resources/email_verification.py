@@ -2,6 +2,9 @@ from flask import redirect, url_for, flash, session
 from flask_restful import Resource
 from smtplib import SMTP
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
+from flask_login import current_user
+
+from models.users import Users
 
 sender_email = "ehshanulhq@gmail.com"
 password = "urfmabihxymkssds"
@@ -31,6 +34,9 @@ class EmailVerification(Resource):
             print('verify email', email)
         except SignatureExpired:
             return '<h1> The token is expired! </h1>'
-        session['_flashes'].clear()
+        # session['_flashes'].clear()
+        user = Users.query.filter_by(username=current_user.username).first()
+        user.verified = 1
+        user.save_to_db()
         flash("Your email has verified. Thank you.")
         return redirect(url_for('home'))
