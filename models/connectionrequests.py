@@ -5,7 +5,7 @@ from models.students import Students
 from database import db
 
 
-class Requests(db.Model):  # this name should be connection requests
+class ConnectionRequests(db.Model):  # this name should be connection requests
     id = db.Column(db.Integer, primary_key=True)
     teacher_username = db.Column(db.String)
     student_username = db.Column(db.String)
@@ -28,7 +28,7 @@ class Requests(db.Model):  # this name should be connection requests
     def get_all_requests():
         print("get all request")
         if current_user.job.lower() == 'teacher':
-            request_usernames = Requests.query.with_entities(Requests.student_username).\
+            request_usernames = ConnectionRequests.query.with_entities(ConnectionRequests.student_username).\
                                  filter_by(teacher_username=current_user.username,
                                            receiver_username=current_user.username).all()
             request_usernames = [username[0] for username in request_usernames]
@@ -39,7 +39,7 @@ class Requests(db.Model):  # this name should be connection requests
                 return None
 
         elif current_user.job.lower() == 'student':
-            request_usernames = (Requests.query.with_entities(Requests.teacher_username).
+            request_usernames = (ConnectionRequests.query.with_entities(ConnectionRequests.teacher_username).
                                  filter_by(student_username=current_user.username,
                                            receiver_username=current_user.username)).all()
             request_usernames = [username[0] for username in request_usernames]

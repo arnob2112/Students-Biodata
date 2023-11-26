@@ -26,10 +26,14 @@
                     <input type="hidden" name="username" value="{{person[10]}}">
                 {% if connections and person[10] in connections %}
                     Added <br>
-                {% endif %}
-                {% if connections is none or person[10] not in connections %}
+                {% elif person[10] in requested %}
+                    Pending <br>
+               {% else %}
                     <input type="submit" style="margin-right: 10px" name="{{person[10]}}" value="Add">
                 {% endif %}
+<!--                {% if connections is none or person[10] not in connections %}-->
+<!--                    <input type="submit" style="margin-right: 10px" name="{{person[10]}}" value="Add">-->
+<!--                {% endif %}-->
                </form>
         </div>
       </div>

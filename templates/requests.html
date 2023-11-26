@@ -22,7 +22,7 @@
                <b> Contact Number: </b> {{person[6]}} <br>
                <b> Job: </b> {{person[8]}} <br>
                 <a href="{{person[7]}}" target="_blank"> Facebook </a> <br><br>
-           <form action="{{ url_for('pending', username=current_user.username, job=current_user.job.lower()) }}" method="POST">
+           <form action="{{ url_for('connectionpending', username=current_user.username, job=current_user.job.lower()) }}" method="POST">
                 <input type="hidden" name="username" value="{{person[10]}}">
 <!--                {% if connections is none or person[10] not in connections %}-->
                 <input type="submit" style="margin-right: 10px" name="add" value="Confirm">

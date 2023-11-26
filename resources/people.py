@@ -6,7 +6,7 @@ import os
 from models.users import Users
 from models.students import Students
 from models.teachers import Teachers
-from models.requests import Requests
+from models.connectionrequests import ConnectionRequests
 
 
 class Profile(Resource):
@@ -115,7 +115,7 @@ class AddConnection(Resource):
                     student_usernames = (Teachers.query.filter_by(username=current_user.username)
                                          .first().student_usernames)
                     students = Students.get_all_students()
-                    requested = (Requests.query.with_entities(Requests.student_username)
+                    requested = (ConnectionRequests.query.with_entities(ConnectionRequests.student_username)
                                  .filter_by(teacher_username=current_user.username).all())
                     requested = [req[0] for req in requested]
                     print(requested)
@@ -125,7 +125,7 @@ class AddConnection(Resource):
                     teacher_usernames = (Students.query.filter_by(username=current_user.username)
                                          .first().teacher_usernames)
                     teachers = Teachers.get_all_teachers()
-                    requested = (Requests.query.with_entities(Requests.teacher_username)
+                    requested = (ConnectionRequests.query.with_entities(ConnectionRequests.teacher_username)
                                  .filter_by(student_username=current_user.username).all())
                     requested = [req[0] for req in requested]
                     return make_response(render_template("add_connection.html", data=teachers,
@@ -146,16 +146,16 @@ class AddConnection(Resource):
         if current_user.username == username:
             if job.lower() == 'teacher':
                 new_student = dict(request.form.items()).get("username")
-                new_pending = Requests(teacher_username=current_user.username, student_username=new_student,
-                                       receiver_username=new_student)
+                new_pending = ConnectionRequests(teacher_username=current_user.username, student_username=new_student,
+                                                 receiver_username=new_student)
                 new_pending.save_to_db()
 
                 return redirect(url_for('addconnection', username=current_user.username, job=current_user.job.lower()))
 
             elif job.lower() == 'student':
                 new_teacher = dict(request.form.items()).get("username")
-                new_pending = Requests(teacher_username=new_teacher, student_username=current_user.username,
-                                       receiver_username=new_teacher)
+                new_pending = ConnectionRequests(teacher_username=new_teacher, student_username=current_user.username,
+                                                 receiver_username=new_teacher)
                 new_pending.save_to_db()
 
                 return redirect(url_for('addconnection', username=current_user.username, job=current_user.job.lower()))

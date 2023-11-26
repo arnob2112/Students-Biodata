@@ -27,6 +27,8 @@
 {% endif %}
     <a href="{{url_for('notice')}}">Notice Board</a>
 {% if current_user.is_authenticated %}
+    <a href="{{url_for('question', variable='all')}}">QNA</a>
+    <a href="{{url_for('connectionpending', username=current_user.username, job=current_user.job.lower())}}">Requests</a>
     {% if current_user.job.lower() == 'admin' %}
         <a href="{{url_for('all', username=current_user.username, job='student')}}"> Students</a>
         <a href="{{url_for('all', username=current_user.username, job='teacher')}}"> Teachers</a>
