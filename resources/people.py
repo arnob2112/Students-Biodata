@@ -7,6 +7,7 @@ from models.users import Users
 from models.students import Students
 from models.teachers import Teachers
 from models.connectionrequests import ConnectionRequests
+from models.notifications import Notifications
 
 
 class Profile(Resource):
@@ -16,7 +17,7 @@ class Profile(Resource):
             person = Students.find_by_username(username, job) or Teachers.find_by_username(username, job)
             if person:
                 data = {" ".join([person[x] for x in range(0, 2)]): [person[x] for x in range(2, len(person))]}
-                return make_response(render_template("profile.html", data=data))
+                return make_response(render_template("profile.html", data=data, notify=Notifications.pending()))
             # a single page of an person which includes all information
         elif current_user.job.lower() == "admin":
             person = Teachers.find_by_username(username, job)
@@ -39,7 +40,8 @@ class Connections(Resource):
                     print(student_usernames)
                     students = Students.get_students_by_username(student_usernames)
                     if bool(students):
-                        return make_response(render_template("connections.html", data=students))
+                        return make_response(render_template("connections.html", data=students,
+                                                             notify=Notifications.pending()))
                     else:
                         flash("You have not added anyone yet.")
                         return make_response(render_template("message.html"))
@@ -48,7 +50,8 @@ class Connections(Resource):
                         username=current_user.username).first().teacher_usernames
                     teachers = Teachers.get_teachers_by_username(teacher_usernames)
                     if bool(teachers):
-                        return make_response(render_template("connections.html", data=teachers))
+                        return make_response(render_template("connections.html", data=teachers,
+                                                             notify=Notifications.pending()))
                     else:
                         flash("You have not added anyone yet.")
                         return make_response(render_template("message.html"))
@@ -120,7 +123,8 @@ class AddConnection(Resource):
                     requested = [req[0] for req in requested]
                     print(requested)
                     return make_response(render_template("add_connection.html", data=students,
-                                                         connections=student_usernames, requested=requested))
+                                                         connections=student_usernames, requested=requested,
+                                                         notify=Notifications.pending()))
                 elif job.lower() == 'student':
                     teacher_usernames = (Students.query.filter_by(username=current_user.username)
                                          .first().teacher_usernames)
@@ -129,7 +133,8 @@ class AddConnection(Resource):
                                  .filter_by(student_username=current_user.username).all())
                     requested = [req[0] for req in requested]
                     return make_response(render_template("add_connection.html", data=teachers,
-                                                         connections=teacher_usernames, requested=requested))
+                                                         connections=teacher_usernames, requested=requested,
+                                                         notify=Notifications.pending()))
                 else:
                     flash("Please try again.")
                     return make_response(render_template("message.html"))
@@ -176,10 +181,10 @@ class All(Resource):
             if current_user.job.lower() == "admin":
                 if job.lower() == "teacher":
                     teachers = Teachers.get_all_teachers()
-                    return make_response(render_template("all.html", data=teachers))
+                    return make_response(render_template("all.html", data=teachers, notify=Notifications.pending()))
                 elif job.lower() == "student":
                     students = Students.get_all_students()
-                    return make_response(render_template("all.html", data=students))
+                    return make_response(render_template("all.html", data=students, notify=Notifications.pending()))
                 else:
                     flash("Please try again.")
                     return make_response(render_template("message.html"))

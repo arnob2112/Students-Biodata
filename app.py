@@ -9,8 +9,9 @@ from resources.email_verification import EmailVerification
 from resources.access_info import Home, ReceiveInfo, GetInfo, Show
 from resources.people import Profile, All, Connections, AddConnection
 from resources.requests import ConnectionPending
-from resources.notice_board import Notice
 from resources.qna import Question, Answer
+from resources.notifications import Notify
+from resources.notice_board import Notice
 
 app = Flask(__name__)
 app.secret_key = "Arnob"
@@ -44,6 +45,7 @@ api.add_resource(All, "/<string:username>/all/<string:job>")
 api.add_resource(Connections, "/<string:job>/<string:username>/connections")
 api.add_resource(AddConnection, "/<string:job>/<string:username>/add connection")
 api.add_resource(ConnectionPending, "/<string:job>/<string:username>/requests")
+api.add_resource(Notify, "/notify")
 api.add_resource(Notice, "/noticeboard")
 api.add_resource(Question, '/qna/<string:variable>')
 api.add_resource(Answer, '/qna/answer/<string:question_id>')

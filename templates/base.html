@@ -27,6 +27,11 @@
 {% endif %}
     <a href="{{url_for('notice')}}">Notice Board</a>
 {% if current_user.is_authenticated %}
+    {% if notify %}
+        <a href="{{url_for('notify')}}" style="color:red"> Notifications ({{ notify }}) </a>
+    {% else %}
+        <a href="{{url_for('notify')}}"> Notifications </a>
+    {% endif %}
     <a href="{{url_for('question', variable='all')}}">QNA</a>
     <a href="{{url_for('connectionpending', username=current_user.username, job=current_user.job.lower())}}">Requests</a>
     {% if current_user.job.lower() == 'admin' %}

@@ -6,6 +6,7 @@ import os
 
 from models.students import Students
 from models.teachers import Teachers
+from models.notifications import Notifications
 from resources.email_verification import verify_mail
 from database import db
 
@@ -20,7 +21,7 @@ class Home(Resource):
                 return make_response(render_template("form.html"))
             if not current_user.verified:
                 flash("Your email is not verified.")
-        return make_response(render_template("home.html"))
+        return make_response(render_template("home.html", notify=Notifications.pending()))
 
     def post(self):
         verify_mail(current_user.email)
@@ -32,7 +33,8 @@ class ReceiveInfo(Resource):
     TABLE_NAME = 'people'
 
     def get(self, job):
-        return make_response(render_template("form.html", job=job.lower()))
+        return make_response(render_template("form.html", job=job.lower(),
+                                             notify=Notifications.pending()))
 
     def post(self, job):
         data = dict(request.form.items())
@@ -50,9 +52,6 @@ class ReceiveInfo(Resource):
             requests.put(request.url, params=data, files={'Picture': request.files['Picture']})
 
             students = Students.get_all_students()
-            # return make_response(render_template("connections.html", students=students,
-            #                                      message="{} {} has updated.".format(data['Firstname']
-            #                                                                          , data['Lastname'])))
             flash("{} {} has updated.".format(data['Firstname'], data['Lastname']))
             return make_response(render_template("message.html"))
 
@@ -123,7 +122,7 @@ class ReceiveInfo(Resource):
         #     if data.get('job').lower() == 'teacher':
         #         delete_teacher = Teachers.query.filter_by(username=data['username']).first()
         #         delete_teacher.delete_from_db()
-        #     elif data.get('job').lower() == 'student':
+        #     elif data.get('job').lower() == 'sender':
         #         delete_student = Students.query.filter_by(username=data['username']).first()
         #         delete_student.delete_from_db()
         #

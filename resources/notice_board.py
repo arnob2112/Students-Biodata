@@ -7,6 +7,7 @@ from pytz import timezone
 from models.students import Students
 from models.notice_board import NoticeBoard
 from models.teachers import Teachers
+from models.notifications import Notifications
 
 
 class Notice(Resource):
@@ -14,7 +15,8 @@ class Notice(Resource):
     def get(self):
         notices = NoticeBoard.query.with_entities(NoticeBoard.notice, NoticeBoard.name, NoticeBoard.date).all()[::-1]
 
-        return make_response(render_template("notice_board.html", notices=notices))
+        return make_response(render_template("notice_board.html", notices=notices,
+                                             notify=Notifications.pending()))
 
     def post(self):
         teacher_name = " ".join(Teachers.query.with_entities(Teachers.firstname, Teachers.lastname).

@@ -5,6 +5,7 @@ from flask_login import login_required, current_user
 from models.teachers import Teachers
 from models.students import Students
 from models.connectionrequests import ConnectionRequests
+from models.notifications import Notifications
 
 
 class ConnectionPending(Resource):  # this name should be connection requests
@@ -17,14 +18,16 @@ class ConnectionPending(Resource):  # this name should be connection requests
                 all_requests = ConnectionRequests.get_all_requests()
                 print("get method request", all_requests)
                 if bool(all_requests):
-                    return make_response(render_template("requests.html", data=all_requests))
+                    return make_response(render_template("requests.html", data=all_requests,
+                                                         notify=Notifications.pending()))
                 else:
                     flash("You have no requests.")
                     return make_response(render_template("message.html"))
             if job.lower() == 'student':
                 all_requests = ConnectionRequests.get_all_requests()
                 if bool(all_requests):
-                    return make_response(render_template("requests.html", data=all_requests))
+                    return make_response(render_template("requests.html", data=all_requests,
+                                                         notify=Notifications.pending()))
                 else:
                     flash("You have no requests.")
                     return make_response(render_template("message.html"))
