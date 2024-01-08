@@ -47,7 +47,7 @@ class Signup(Resource):
 
         # verify_mail(email)
         new_user = Users(username=username, password=generate_password_hash(password, method='sha256'),
-                         email=email, job=job.capitalize())
+                         email=email, job=job.capitalize(), verified=0)
         db.session.add(new_user)
         db.session.commit()
         # flash("Verify your email address. Check you mailbox.")
