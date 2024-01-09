@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    {% block title %} <title> Features - Students's Biodata </title> {% endblock %}
+    <style>
+        li {
+              line-height: 1.5;
+            }
+        div.container {
+          text-align: center;
+        }
+
+        ul.myUL {
+          display: inline-block;
+          text-align: left;
+        }
+</style>
+</head>
+<body bgcolor="ADDDD0">
+<br><br><h1 align="center"> Features </h1>
+<div class="container">
+  <ul class="myUL" style="width: 800px; word-wrap: break-word;">
+    <li>Everyone can open an account using a unique username and password.</li>
+    <li>Everyone can verify their email by clicking a link which will be sent in their email box.</li>
+    <li>Everyone can see and update their information.</li>
+    <li>A student can give a connection request to any teacher. If the teacher accepts that request, then there will be a connection between them.</li>
+    <li>A teacher also can give a connection request to any student. If the student accepts that request, then there will be a connection between them.</li>
+    <li>There is a webpage to show all connections, all students/teachers, and requests.</li>
+    <li>Any user can delete any connection with one click.</li>
+    <li>There is a Question and Answer panel where a student will ask questions and a teacher will answer them.</li>
+    <li>There is a notification panel where a student will easily find which of his questions has been answered as well as a teacher will easily find which of his answers should be answered again.</li>
+    <li>There is a Notice Board where only teachers can post a notice and everyone can see notices.</li>
+  </ul>
+</div>
+
+</body>
+
+
+{% endblock %}
+
+
+
+
+
+
+
