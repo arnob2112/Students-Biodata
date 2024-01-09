@@ -2,7 +2,6 @@ from flask import render_template, make_response, request, session, flash
 from flask_restful import Resource
 from flask_login import login_required, current_user
 import requests
-import os
 
 from models.students import Students
 from models.teachers import Teachers
@@ -19,8 +18,6 @@ class Home(Resource):
             if (Students.query.filter_by(username=current_user.username).first() is None and
                     Teachers.query.filter_by(username=current_user.username).first() is None):
                 return make_response(render_template("form.html"))
-            if not current_user.verified:
-                flash("Your email is not verified.")
         return make_response(render_template("home.html", notify=Notifications.pending()))
 
     def post(self):
@@ -53,7 +50,7 @@ class ReceiveInfo(Resource):
 
             students = Students.get_all_students()
             flash("{} {} has updated.".format(data['Firstname'], data['Lastname']))
-            return make_response(render_template("message.html"))
+            return make_response(render_template("home.html", notify=Notifications.pending()))
 
         # initializing delete method
         elif data["work"] == 'Delete':
@@ -84,9 +81,8 @@ class ReceiveInfo(Resource):
                                        contact_number=data['number'], fb_url=data['fb_url'], job=job.capitalize(),
                                        image_path=image_path, username=current_user.username, student_usernames=None)
                 new_teacher.save_to_db()
-
-            return make_response(render_template("uploaded.html",
-                                                 name="{} {}".format(data['firstname'], data['lastname'], )))
+            flash("Your information has uploaded.")
+            return make_response(render_template("home.html", notify=Notifications.pending()))
 
     def put(self, job):
         data = dict(request.args)
@@ -132,6 +128,11 @@ class ReceiveInfo(Resource):
         #     flash("Please try again")
         #     return make_response(render_template("message.html"))
         pass
+
+
+class Features(Resource):
+    def get(self):
+        return make_response(render_template("features.html"))
 
 
 class GetInfo(Resource):

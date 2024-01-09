@@ -3,17 +3,23 @@
 {% block title %} <title> Home - Students's Biodata </title> {% endblock %}
 
 {% block content %}
-
+<br><br><br>
 {% for message in get_flashed_messages() %}
     <h4 align="center"> {{message}} </h4>
 {% endfor %}
-
+{% if not current_user.verified and current_user.is_authenticated %}
+    <form align="center" action="{{url_for('home')}}" method="POST">
+        <h4> Your email is not verified. </h4>
+        <input type="submit" style="margin-right: 10px" name="verify email" value="Verify your email">
+    </form>
+{% endif %}
+<br><br><br><br><br>
 <h1 align="center"> Welcome to Students's Biodata </h1>
-    <div class="center2">
-        <a href="{{ url_for('home')}}">
-        <button> Students Information </button>
-        </a>
-    </div>
+<!--    <div class="center2">-->
+<!--        <a href="{{ url_for('home')}}">-->
+<!--        <button> Students Information </button>-->
+<!--        </a>-->
+<!--    </div>-->
 <!--    <div class="center1">-->
 <!--            <a href="{{ url_for("receiveinfo", job="students") }}">-->
 <!--            <button> Add Students </button>-->
