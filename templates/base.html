@@ -25,6 +25,7 @@
   </div>
   <a href="{{url_for('login')}}">Login</a>
 {% endif %}
+    <a href="{{url_for('features')}}">Features</a>
     <a href="{{url_for('notice')}}">Notice Board</a>
 {% if current_user.is_authenticated %}
     {% if notify %}
