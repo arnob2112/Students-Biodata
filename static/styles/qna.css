@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    font-family: "montserrat", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: var(--text-color);
+}
+
+:root{
+    --bg-color: #fef6e4;
+    --text-color: #172c66;
+    --highlight-color: #001858;
+    --container-color: #8bd3dd;
+    --secondary-color: #f582ae;
+    --navbar-color: #f3d2c1;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    margin-top: 20px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    padding: 20px;
+    margin: 10px 0 10px 0;
+    text-align: center;
+    background: var(--secondary-color);
+    background: linear-gradient(to right, var(--secondary-color), var(--container-color));
+}
+
+.question {
+    width: 100%;
+    padding: 5px;
+    font-weight: 500;
+    text-align: left;
+}
+
+.answer {
+    width: 100%;
+    padding: 5px;
+    font-weight: 500;
+    text-align: right;
+}
+
+.container h1 {
+    color: var(--highlight-color);
+    margin: 10px 0 15px;
+}
+
+.container a {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.card hr {
+    background-color: #4f4f4f;
+    width: 80%;
+    height: 2px;
+    border: none;
+    border-radius: 5%;
+    margin-top: 10px;
+}
+
+.card #name {
+    margin-bottom: 10px;
+}
+
+#button {
+    width: 100%;
+    height: 30px;
+    background-color: var(--secondary-color);
+    border: none;
+    border-radius: 1%;
+    padding: 0 10px 0 10px;
+    margin: 5px;
+    transition: font-weight 0.2s ease-in-out;
+}
+
+#button:hover{
+    font-weight: 700;
+}
+
+/* Questions */
+
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+textarea {
+    width: 90%;
+    height: 150px;
+    margin-top: 30px;
+    padding: 8px;
+    font-size: 1rem;
+}
+
+input[type="submit"] {
+    width: 100px;
+    height: 30px;
+    margin: 10px;
+    /* padding: 10px; */
+    font-size: 1rem;
+}

@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    font-family: "montserrat", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: var(--text-color);
+}
+
+:root{
+    --bg-color: #fef6e4;
+    --text-color: #172c66;
+    --highlight-color: #001858;
+    --container-color: #8bd3dd;
+    --secondary-color: #f582ae;
+    --navbar-color: #f3d2c1;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    margin-top: 20px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    padding: 20px;
+    margin: 10px 0 10px 0;
+    text-align: center;
+    background: var(--secondary-color);
+    background: linear-gradient(to right, var(--secondary-color), var(--container-color));
+    transition: font-weight 0.2s ease-in-out;
+}
+
+.card hr {
+    background-color: #4f4f4f;
+    width: 40%;
+    height: 2px;
+    border: none;
+    border-radius: 5%;
+    margin-top: 10px;
+}
+
+.container a {
+    width: 100%;
+    text-decoration: none;
+}
+
+.unseen {
+    color: red;
+    font-weight: 600;
+    transition: font-weight 0.2s ease-in-out;
+}
+ 
+.card:hover, .card:hover > .unseen {
+    font-weight: 700;
+}

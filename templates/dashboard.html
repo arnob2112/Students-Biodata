@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+<head>
+    {% block title %} <title> Home - Student's Biodata </title> {% endblock %}
+</head>
+
+{% block content %}
+
+<body>
+    <div class="content-container">
+        {% if not current_user.verified and current_user.is_authenticated %}
+            <form align="center" action="{{url_for('home')}}" method="POST">
+                <h4> Your email is not verified. </h4>
+                <input id="button" type="submit" style="margin-right: 10px" name="verify email" value="Verify your email">
+            </form>
+        {% endif %}
+        <h3>
+            {% for message in get_flashed_messages() %}
+                {{ message }} <br> <br>
+            {% endfor %}
+        </h3>
+        <h1> Lorem ipsum dolor </h1>
+        <h3> Lorem ipsum dolor, sit amet consectetur!</h3>
+    </div>
+</body>
+{% endblock %}
