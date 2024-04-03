@@ -18,12 +18,14 @@ class Home(Resource):
             if (Students.query.filter_by(username=current_user.username).first() is None and
                     Teachers.query.filter_by(username=current_user.username).first() is None):
                 return make_response(render_template("form.html"))
-        return make_response(render_template("home.html", notify=Notifications.pending()))
+            else:
+                return make_response(render_template("dashboard.html", notify=Notifications.pending()))
+        return make_response(render_template("home.html"))
 
     def post(self):
         verify_mail(current_user.email)
         flash(f"Email has sent to {current_user.email}. Please check your inbox.")
-        return make_response(render_template("home.html"))
+        return make_response(render_template("dashboard.html"))
 
 
 class ReceiveInfo(Resource):
@@ -50,7 +52,7 @@ class ReceiveInfo(Resource):
 
             students = Students.get_all_students()
             flash("{} {} has updated.".format(data['Firstname'], data['Lastname']))
-            return make_response(render_template("home.html", notify=Notifications.pending()))
+            return make_response(render_template("dashboard.html", notify=Notifications.pending()))
 
         # initializing delete method
         elif data["work"] == 'Delete':
@@ -132,24 +134,24 @@ class ReceiveInfo(Resource):
 
 class Features(Resource):
     def get(self):
-        return make_response(render_template("features.html"))
+        return make_response(render_template("features.html", notify=Notifications.pending()))
 
 
-class GetInfo(Resource):
-
-    @login_required
-    def get(self):
-        teacher_username = current_user.username
-        students = Students.get_all_students()
-        return make_response(render_template("connections.html", students=students))
-
-    def put(self):
-        print("in the put method, getinfo")
-        print(request.method)
-
-
-class Show(Resource):
-    def get(self):
-        students = Students.get_all_students()
-        return make_response(
-            render_template("connections.html", students=students))
+# class GetInfo(Resource):
+#
+#     @login_required
+#     def get(self):
+#         teacher_username = current_user.username
+#         students = Students.get_all_students()
+#         return make_response(render_template("connections.html", students=students))
+#
+#     def put(self):
+#         print("in the put method, getinfo")
+#         print(request.method)
+#
+#
+# class Show(Resource):
+#     def get(self):
+#         students = Students.get_all_students()
+#         return make_response(
+#             render_template("connections.html", students=students))

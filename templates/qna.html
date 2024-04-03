@@ -1,78 +1,42 @@
 {% extends "base.html" %}
 
+<head>
+    {% block title %} <title> Q&A - Student's Biodata </title> {% endblock %}
+    {% block style %}
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/qna.css') }}">
+    {% endblock %}
+</head>
 
 {% block content %}
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-    {% block title %} <title> QNA </title> {% endblock %}
-<!--    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/showinfo.css') }}">-->
-    <style>body {
-  font-family: Arial, Helvetica, sans-serif;
-  overflow-x: hidden;
-}
 
-.column {
-  margin-left: auto;
-  margin-right: auto;
-  width: 80%;
-  padding: 10px 10px;
-}
-
-.row {margin: 0 -5px;}
-
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-@media screen and (max-width: 600px) {
-  .column {
-    width: 100%;
-    display: block;
-    margin-bottom: 20px;
-  }
-}
-
-.card {
-  margin-left: 20px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  padding: 16px;
-  text-align: center;
-  background-color: #f1f1f1;
-}
-</style>
-</head>
-<body align="center">
-<br><br><br>
-{% if current_user.is_authenticated %}
-        <h1> Question and Answer </h1>
-<!--    <form action="{{url_for('question', variable='new_question')}}" method="POST">-->
-<!--        <input type="submit" name="new question" value="Ask a question">-->
-<!--    </form>-->
-    {% if current_user.job.lower() == "student" %}
-    <a href="{{url_for('question', variable='new_question')}}"> <button> Ask a Question </button></a> <br><br><br><br>
-    {% endif %}
-
-<!--    {{all_questions}} <br><br>-->
-    <div class="row">
-        {% for item in all_questions %}
-        <div class="column">
-            <a href="{{url_for('answer', question_id=item[1] )}}" style="text-decoration: none; color:#000000">
-            <div class="card">
-            <p align="center" style="color:gray;"> {{ item[2].capitalize() }} </p>
-        {% for question, answer in item[0].items() %}
-            <p align="right"> <b>Q: </b> {{question}} </p>
-            <p align="left"> <b>Ans: </b> {{answer}} </p>
-        {% endfor %}
-        <hr size="5" width="50%" color="#4f4f4f" style="border-radius: 5px">
-
-            </div>
+<body>
+    <div class="content">
+        <div class="container">
+            {% if current_user.is_authenticated %}
+                {% if current_user.job.lower() == 'student' %}
+                    <a href="{{url_for('question', variable='new_question')}}"> <button id="button"> Ask a Question </button></a>
+                    <a href="{{url_for('question', variable='my_questions')}}"> <button id="button"> My Questions </button></a>
+                {% endif %}
+                <h1> Question and Answer </h1>
+                {% for item in all_questions %}
+                    <a href="{{url_for('answer', question_id=item[1] )}}"> 
+                        <div class="card">
+                            <div id="name"> {{ item[2].capitalize() }} </div>
+                            {% for question, answer in item[0].items() %}
+                                <div class="question">
+                                    <b>Q: </b> {{question}}
+                                </div>
+                                <div class="answer">
+                                    <b>Ans: </b> {{answer}}
+                                </div>
+                            {% endfor %}
+                            <hr>
+                        </div>
+                    </a>
+                {% endfor %}
+            {% endif %}
         </div>
-            {% endfor %}
     </div>
-</a>
-
-{% endif %}
 </body>
+
 {% endblock %}

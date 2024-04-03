@@ -6,7 +6,7 @@ from models.users import Users
 from database import db
 from resources.authentication import Signup, Login, Logout
 from resources.email_verification import EmailVerification
-from resources.access_info import Home, ReceiveInfo, Features, GetInfo, Show
+from resources.access_info import Home, ReceiveInfo, Features  # , GetInfo, Show
 from resources.people import Profile, All, Connections, AddConnection
 from resources.requests import ConnectionPending
 from resources.qna import Question, Answer
@@ -50,8 +50,8 @@ api.add_resource(Notice, "/noticeboard")
 api.add_resource(Question, "/qna/<string:variable>")
 api.add_resource(Answer, "/qna/answer/<string:question_id>")
 api.add_resource(Features, "/features")
-api.add_resource(GetInfo, "/showinfo")  # need to check
-api.add_resource(Show, "/show")  # need to check
+# api.add_resource(GetInfo, "/showinfo")  # need to check
+# api.add_resource(Show, "/show")  # need to check
 
 
 if __name__ == '__main__':

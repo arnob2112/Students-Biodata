@@ -20,7 +20,6 @@ class Login(Resource):
         user = Users.query.filter_by(username=username).first()
         if not user or not check_password_hash(user.password, password):
             flash("Please check your details and try again.")
-            print("wrong user")
             return redirect(url_for('login'))
 
         login_user(user, remember=remember)

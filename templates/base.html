@@ -4,51 +4,60 @@
     <meta charset="UTF-8">
     {% block title %} {% endblock %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/home.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/base.css') }}">
     <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/3286/3286097.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    {% block style %} {% endblock %}
 </head>
-<body bgcolor="ADDDD0">
+<body>
+    <header>
+        <div class="navbar"> 
+            <div class="navbar-left">
+                <div class="navbar-links">
+                    <a href="{{url_for('profile', username=current_user.username, job=current_user.job.lower())}}"> 
+                        <i class="fa-regular fa-user"></i> Profile </a>
+                    {% if current_user.job.lower() == 'admin' %}
+                        <a href="{{url_for('all', username=current_user.username, job='student')}}"> 
+                            <i class="fa-solid fa-graduation-cap dropdown-icon"></i>Students</a>
+                        <a href="{{url_for('all', username=current_user.username, job='teacher')}}"> 
+                            <i class="fa-solid fa-person-chalkboard dropdown-icon"></i>Teachers</a>
+                    {% else %}
+                        <a href="{{url_for('connections', username=current_user.username, job=current_user.job.lower())}}"> 
+                            <i class="fa-solid fa-users-rays"></i> Connections </a>
+                        <a href="{{url_for('addconnection', username=current_user.username, job=current_user.job.lower())}}"> 
+                            <i class="fa-solid fa-person-circle-plus"></i> Add Connections </a>
+                        <a href="{{url_for('connectionpending', username=current_user.username, job=current_user.job.lower())}}"> 
+                            <i class="fa-solid fa-person-circle-question"></i> Requests </a>
+                    {% endif %}
+                    <a href="{{url_for('question', variable='all')}}"> <i class="fa-regular fa-circle-question"></i> QNA </a>
+                </div>
+            </div>
 
-<div class="navbar">
-{% if current_user.is_authenticated %}
-  <a href="{{url_for('logout')}}"> Logout </a>
-{% endif %}
-{% if not current_user.is_authenticated %}
-  <div class="dropdown">
-    <button class="drop-btn"> Signup
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-        <a href="{{url_for('signup', job='student')}}"> Student </a> <br>
-        <a href="{{url_for('signup', job='teacher')}}"> Teacher </a> <br>
-    </div>
-  </div>
-  <a href="{{url_for('login')}}">Login</a>
-{% endif %}
-    <a href="{{url_for('features')}}">Features</a>
-    <a href="{{url_for('notice')}}">Notice Board</a>
-{% if current_user.is_authenticated %}
-    {% if notify %}
-        <a href="{{url_for('notify')}}" style="color:red"> Notifications ({{ notify }}) </a>
-    {% else %}
-        <a href="{{url_for('notify')}}"> Notifications </a>
-    {% endif %}
-    <a href="{{url_for('question', variable='all')}}">QNA</a>
-    <a href="{{url_for('connectionpending', username=current_user.username, job=current_user.job.lower())}}">Requests</a>
-    {% if current_user.job.lower() == 'admin' %}
-        <a href="{{url_for('all', username=current_user.username, job='student')}}"> Students</a>
-        <a href="{{url_for('all', username=current_user.username, job='teacher')}}"> Teachers</a>
-    {% else %}
-        <a href="{{url_for('addconnection', username=current_user.username, job=current_user.job.lower())}}"> Add Connections </a>
-        <a href="{{url_for('connections', username=current_user.username, job=current_user.job.lower())}}"> Connections </a>
-    {% endif %}
-        <a href="{{url_for('profile', username=current_user.username, job=current_user.job.lower())}}"> Profile </a>
-{% endif %}
-  <a class="active" href="{{url_for('home')}}"> Home </a>
-</div>
+            <div class="logo">
+                    <a href="{{url_for('home')}}"> 
+                        <img src="https://cdn-icons-png.flaticon.com/512/3286/3286097.png" width="50px" height="50px">
+                        Lorem ipsum dolor
+                    </a>
+            </div>
 
-   {% block content %}
-   {% endblock %}
+            <div class="navbar-right">
+                <div class="navbar-links">
+                    <a href="{{url_for('home')}}"> <i class="fa-solid fa-house"></i> Home </a>
+                    <a href="{{url_for('notice')}}"> <i class='bx bx-chalkboard'></i> Notice Board </a>
+                    <a href="{{url_for('features')}}"> <i class='bx bx-notepad'></i> Features </a>
+                    {% if notify %}
+                        <a class="notificationON" href="{{url_for('notify')}}"> 
+                            <i class="fa-regular fa-bell"></i> Notifications ({{ notify }}) </a>
+                    {% else %}
+                        <a href="{{url_for('notify')}}" > <i class="fa-regular fa-bell"></i> Notifications </a>
+                    {% endif %}
+                    <a href="{{url_for('logout')}}"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout </a>          
+                </div>
+            </div>
+        </div>
+    </header>
+    {% block content %}
 
-</body>
-</html>
+    {% endblock %}
+ </body>

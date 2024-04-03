@@ -13,7 +13,8 @@ from models.notifications import Notifications
 class Profile(Resource):
     @login_required
     def get(self, username, job):
-        if current_user.job.lower() == "teacher" or username == current_user.username and job.lower() == 'student':
+        # if current_user.job.lower() == "teacher" or username == current_user.username and job.lower() == 'student':
+        if current_user.is_authenticated:
             person = Students.find_by_username(username, job) or Teachers.find_by_username(username, job)
             if person:
                 data = {" ".join([person[x] for x in range(0, 2)]): [person[x] for x in range(2, len(person))]}

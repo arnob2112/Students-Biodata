@@ -1,76 +1,32 @@
 {% extends "base.html" %}
 
+<head>
+  {% block title %} <title> Notifications </title> {% endblock %}
+  {% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/notifications.css') }}">
+  {% endblock %}
+</head>
 
 {% block content %}
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-    {% block title %} <title> QNA </title> {% endblock %}
-<!--    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/showinfo.css') }}">-->
-    <style>body {
-  font-family: Arial, Helvetica, sans-serif;
-  overflow-x: hidden;
-}
-
-.column {
-  margin-left: auto;
-  margin-right: auto;
-  width: 80%;
-  padding: 10px 10px;
-}
-
-.row {margin: 0 -5px;}
-
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-@media screen and (max-width: 600px) {
-  .column {
-    width: 100%;
-    display: block;
-    margin-bottom: 20px;
-  }
-}
-
-.card {
-  margin-left: 20px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  padding: 16px;
-  text-align: center;
-  background-color: #f1f1f1;
-}
-</style>
-</head>
-<body align="center">
-<br><br><br>
-{% if current_user.is_authenticated %}
+<body>
+  <div class="content">
+    {% if current_user.is_authenticated %}
+      <div class="container">
         <h1> Notifications </h1>
-
-<!--    {% if current_user.job.lower() == "student" %}-->
-<!--    <a href="{{url_for('question', variable='new_question')}}"> <button> Ask a Question </button></a> <br><br><br><br>-->
-<!--    {% endif %}-->
-
-<!--    {{all_questions}} <br><br>-->
-    <div class="row">
         {% for item in notifications %}
-        <div class="column">
-            <a href="{{url_for('answer', question_id=item[0] )}}" style="text-decoration: none; color:#000000">
+          <a href="{{url_for('answer', question_id=item[0] )}}">
             <div class="card">
-                {% if item[4] == "pending" %}
-                    <p align="center" style="color:red;"><b> {{ item[1] }} </b></p>
-                {%  else %}
-                    <p align="center" style="color:gray;"> {{ item[1] }} </p>
-                {% endif %}
-        <hr size="3" width="50%" color="#4f4f4f" style="border-radius: 5px">
-
+              {% if item[4] == "pending" %}
+                <div class="unseen"> {{ item[1] }} </div>
+              {%  else %}
+                <div> {{ item[1] }} </div>
+              {% endif %}
+              <hr>
             </div>
-        </div>
-            {% endfor %}
-    </div>
-</a>
-
-{% endif %}
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
 </body>
 {% endblock %}

@@ -1,31 +1,52 @@
 {% extends "base.html" %}
 
+<head>
+    {% block title %} <title> Profile - Student's Biodata </title> {% endblock %}
+    {% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/profile.css') }}">
+    {% endblock %}
+</head>
 
 {% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    {% block title %} <title> Profile - Students's Biodata </title> {% endblock %}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/profile.css') }}">
-
-</head>
-<body align="center" bgcolor="ADDDD0">
-    {% for key, value in data.items() %}
-    <br><br>
-    <div class="img"> <img src="{{url_for('home')}}{{value[7]}}" alt="picture" height="200px" width="200px" style="border-radius:50%;"> </div> <br>
-        <h2> {{key}} </h2>
-    <b> College </b>: {{value[0]}} <br>
-    <b> Age </b>: {{value[1]}} <br>
-    <b> Gender </b>: {{value[2]}} <br>
-    <b> Religion </b>: {{value[3]}} <br>
-    <b><a class="link" href="tel:{{value[4]}}" > Contact Number </a></b>: {{value[4]}} <br>
-    <b> Job </b>: {{value[6]}} <br>
-        <a class="link" href="{{value[5]}}" target="_blank"> Facebook </a> <br>
-   <form action="{{ url_for('receiveinfo', job=current_user.job.lower()) }}" method="POST">
-            <input type="hidden" name="username" value="{{value[8]}}">
-            <input type="hidden" name="job" value="{{value[6]}}">
-            <input type="submit" style="margin-right: 10px" name="work" value="Update">
-       </form>
-    {%endfor%}
+<body>
+    {% for name, info in data.items() %}
+        <div class="main-container">
+            <div class="info-container">
+                <div class="left-container">
+                    <img src="{{url_for('home')}}{{info[7]}}" alt="picture">
+                    <div>
+                        <a href="{{info[5]}}" target="_blank"> <i class="fa-brands fa-facebook"></i> </a> 
+                        <a href="tel:{{info[4]}}" > <i class="fa-solid fa-phone-volume"></i> </a> 
+                    </div>
+                </div>
+                <div class="right-container">
+                    <div class="right-container-top">
+                        <h1> {{name}} </h1>
+                    </div>
+                    <div class="right-container-bottom">
+                        <div class="label"> College: </div>
+                            <div class="value"> {{info[0]}} </div>
+                        <div class="label"> Age: </div>
+                            <div class="value"> {{info[1]}} </div>
+                        <div class="label"> Gender: </div>
+                            <div class="value"> {{info[2]}} </div>
+                        <div class="label"> Religion: </div>
+                            <div class="value"> {{info[3]}} </div>
+                        <div class="label"> Job: </div>
+                            <div class="value"> {{info[6]}} </div>
+                    </div>
+                    {% if current_user.username == info[8] or current_user.username == 'admin' %}
+                        <form action="{{ url_for('receiveinfo', job=current_user.job.lower()) }}" method="POST">
+                            <input type="hidden" name="username" value="{{info[8]}}">
+                            <input type="hidden" name="job" value="{{info[6]}}">
+                            <input id="button" type="submit" name="work" value="Update">
+                        </form>        
+                    {% endif %}
+                </div>    
+            </div>        
+        </div>
+    {% endfor %}
 </body>
+
 {% endblock %}

@@ -1,47 +1,48 @@
 {% extends "base.html" %}
 
-
-
 <head>
     {% block title %} <title> Form - Student's Biodata </title> {% endblock %}
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/form.css') }}">
+    {% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/form.css') }}">
+    {% endblock %}
 </head>
 
 {% block content %}
 
-<body bgcolor="ADDDD0"> </body>
-<h1 align="center"> Input Form </h1>
-<table align="center">
-<tr>
-    <td >
+<body>
+    <div class="container">
+        <div class="form-container">
+            <form action="{{ url_for('receiveinfo', job=current_user.job.lower())}}" method="POST" enctype="multipart/form-data">
+            <input required type="text" name="firstname" placeholder="First name">
+            <input required type="text" name="lastname" placeholder="Last name">
+            <input type="text" name="college" placeholder="College">
+            <input required type="number" name="age" placeholder="Age">
+            <input required type="tel" name="number" placeholder="Contact Number">
+            <input required type="url" name="fb_url" placeholder="Facebook ID link">
+            <div class="radio">
+                Gender:
+                <input type="radio" name="gender" value="Male"> Male
+                <input type="radio" name="gender" value="Female"> Female
+            </div>
+            <div class="checkbox">
+                Religion:
+                <input type="checkbox" name="religion" value="Muslim"> Muslim
+                <input type="checkbox" name="religion" value="Hindu"> Hindu
+                <input type="checkbox" name="religion" value="Others"> Others
+    
+            </div>
+            <div class="picture-upload">
+                Upload a Profile Picture: <input required type="file" name="picture" accept=".jpg">
+            </div>
+    
+    
+            <input type="hidden" name="work" value="">
+            <br><br>
+            <input type="submit" value="Submit" id="button">
+            </form>
+        </div>
+    
+    </div>
+</body>
 
-    <form action="{{ url_for('receiveinfo', job=current_user.job.lower())}}" method="POST" enctype="multipart/form-data">
-    First name: <input required type="text" name="firstname" placeholder="First name">
-    Last name: <input required type="text" name="lastname" placeholder="Last name"> <br><br>
-    College: <input type="text" name="college">
-    Age: <input required type="number" name="age"> <br><br>
-    Contact Number: <input required type="tel" name="number"> <br><br>
-    Facebook Id link: <input required type="url" name="fb_url"> <br><br>
-    Gender:
-        <input type="radio" name="gender" value="Male"> Male
-        <input type="radio" name="gender" value="Female"> Female
-        <br><br>
-    Religion:
-        <input type="checkbox" name="religion" value="Muslim"> Muslim
-        <input type="checkbox" name="religion" value="Hindu"> Hindu
-        <input type="checkbox" name="religion" value="Others"> Others
-        <br><br>
-<!--    {% if not current_user.is_authenticated %}-->
-<!--        Teacher's username <input required type="text" name="teacher_usernames"> <br> <br>-->
-<!--    {% endif %}-->
-    Upload a Profile Picture: <input required type="file" name="picture" accept=".jpg">
-    <input type="hidden" name="work" value="">
-    <br><br>
-    <input type="submit" value="Submit">
-    </form>
-
-    </td>
-</tr>
-</table>
 {% endblock %}
-

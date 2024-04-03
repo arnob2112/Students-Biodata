@@ -2,15 +2,57 @@
 
 {% block title %} <title> Ask Question </title> {% endblock %}
 
+{% block style %}
+    <style>
+        .content h1 {
+            text-align: center;
+            margin: 30px;
+        }
+
+        form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+        }
+
+        textarea {
+            width: 60%;
+            height: 150px;
+            padding: 8px;
+            font-size: 1rem;
+        }
+
+        input[type="submit"] {
+            width: 100px;
+            height:40px;
+            margin: 10px;
+            padding: 10px;
+            font-size: 1rem;
+        }
+
+        hr {
+            background-color: #4f4f4f;
+                width: 80%;
+                height: 2px;
+                border: none;
+                border-radius: 5%;
+                margin-top: 10px;
+        }
+        
+    </style>
+{% endblock %}
+
 {% block content %}
-<body align="center">
-<br><br><br>
-    <h1> Your Question </h1> <br>
-    <form action="{{url_for('question', variable='new_question')}}" method="POST">
-        <textarea name="new_question" style="width: 60%; height: 150px; padding:8px;"></textarea> <br>
-        <input type="submit" name="post" value="Post" style="width: 100px; height:40px; margin: 10px;">
-<!--        <input type="hidden" name="question_id" value="2">-->
-        <hr size="5" width="50%" color="#4f4f4f" style="border-radius: 5px">
-    </form>
+<body>
+    <div class="content">
+        <h1> Your Question </h1>
+        <form action="{{url_for('question', variable='new_question')}}" method="POST">
+            <textarea name="new_question" placeholder="Your question here"></textarea> <br>
+            <input id="button" type="submit" name="post" value="Post">
+            <hr>
+        </form>
+    </div>
 </body>
 {% endblock %}

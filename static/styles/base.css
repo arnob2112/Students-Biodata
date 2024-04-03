@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    font-family: "montserrat", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: var(--text-color);
+}
+
+:root{
+    --bg-color: #fef6e4;
+    --text-color: #172c66;
+    --highligh-color: #001858;
+    --container-color: #8bd3dd;
+    --secondary-color: #f582ae;
+    --navbar-color: #f3d2c1;
+    --notification-color: red;
+}
+
+body{
+    background-color: var(--bg-color);
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    background-color: var(--navbar-color);
+    height: 100px;
+    font-size: 1.1rem;
+}
+
+.navbar-right {
+    display: block;
+    width: 45%;
+    position: relative;
+    padding-left: 5px;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    width: 10%;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.logo a {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    align-items: center;
+    font-family: cursive;
+    font-size: 1rem;
+}
+
+.navbar-left {
+    display: block;
+    width: 45%;
+    position: relative;
+    padding-right: 5px;
+}
+
+.navbar-right .navbar-links {
+    display: block;
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+}
+.navbar-left .navbar-links {
+    display: block;
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+}
+
+.navbar-right a {
+    padding-left: 10px;
+    text-decoration: none;
+}
+.navbar-left a {
+    padding-right: 10px;
+    text-decoration: none;
+}
+
+.navbar a:hover:not(.notificationON) {
+    font-weight: 600;
+    transition: 0.3s all linear;
+}
+
+
+.content-container{
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-container h1{
+    font-size: 4rem;
+    margin: 0 0 20px;
+}
+
+#button {
+    width: 100%;
+    max-width: 150px;
+    height: 30px;
+    background-color: var(--secondary-color);
+    border: none;
+    border-radius: 1%;
+    padding: 0 10px 0 10px;
+    margin: 10px;
+    transition: font-weight 0.2s ease-in-out;
+}
+
+#button:hover{
+    font-weight: 700;
+}
+
+
+.notificationON, .notificationON i {
+    font-weight: 700;
+    color: var(--highlight-color);
+    animation: bounceNotification 2s ease-in-out infinite;
+}
+
+@keyframes bounceNotification {
+    0%{ color: var(--highlight-color);
+    }
+
+    50% {
+        color: var(--notification-color);
+    }
+}

@@ -4,11 +4,10 @@
 {% block content %}
 
 <head>
-    <meta charset="UTF-8">
     {% block title %} <title> Message - Students's Biodata </title> {% endblock %}
 </head>
-<body bgcolor="ADDDD0" align="center">
-<h2>
+<body align="center">
+<h2 style="margin-top: 40px">
 {% for message in get_flashed_messages() %}
     {{ message }} <br> <br>
 {% endfor %}
